@@ -1,0 +1,61 @@
+#include "init.h"
+#include <ros/ros.h>
+#include <string>
+
+void ros_init(const unsigned char *name, uint32_t options) {
+  int argc = 0;
+  char **argv = NULL;
+
+  const std::string &n = std::string((const char*)name);
+  ros::init(argc, argv, n, options);
+}
+
+bool ros_isInitialized() {
+  return ros::isInitialized();
+}
+
+bool ros_isShuttingDown() {
+  return ros::isShuttingDown();
+}
+
+void ros_spin() {
+  ros::spin();
+}
+
+void ros_spinOnce() {
+  ros::spinOnce();
+}
+
+void ros_waitForShutdown() {
+  ros::waitForShutdown();
+}
+
+bool ros_ok() {
+  return ros::ok();
+}
+
+void ros_shutdown() {
+  ros::shutdown();
+}
+
+void ros_requestShutdown() {
+  ros::requestShutdown();
+}
+
+void ros_start() {
+  ros::start();
+}
+
+bool ros_isStarted() {
+  return ros::isStarted();
+}
+
+const unsigned char *ros_getROSArg(int argc, const char *const *argv, const char *arg) {
+  return (const unsigned char *)ros::getROSArg(argc, argv, arg).c_str();
+}
+
+const unsigned char *ros_getDefaultMasterURI(int32_t *len) {
+  const std::string &uri = ros::getDefaultMasterURI();
+  *len = uri.length();
+  return (const unsigned char*)uri.c_str();
+}
