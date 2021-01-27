@@ -4,8 +4,8 @@ use std::os::raw::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{value::RawValue, Result};
 
-use super::ffi;
 use super::callback::Callback;
+use super::ffi;
 use super::subscriber::Subscriber;
 
 unsafe extern "C" fn __callback_fn(phantom_data: *const c_void, msg: *const c_char) {
