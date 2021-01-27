@@ -29,7 +29,7 @@ fn main() {
         .expect("Unable to generate bindings");
 
     bindings
-        .write_to_file("src/ffi.rs")
+        .write_to_file("src/ros/ffi.rs")
         .expect("Couldn't write ffi bindings to file!");
 
     Command::new("bash")
