@@ -1,0 +1,15 @@
+[package]
+name = "ros-sys"
+version = "0.1.0"
+authors = ["reza-ebrahimi <reza.ebrahimi.dev@gmail.com>"]
+edition = "2018"
+links = "ros-native"
+build = "build.rs"
+
+[lib]
+name = "ros_sys"
+path = "src/lib.rs"
+crate-type = ["lib"]
+
+[build-dependencies]
+bindgen = "0.56.0"
