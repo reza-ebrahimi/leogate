@@ -3,10 +3,6 @@
 #include <ros/callback_queue.h>
 #include <string>
 
-callback_queue *ros_getGlobalCallbackQueue() {
-  return reinterpret_cast<callback_queue *>(ros::getGlobalCallbackQueue());
-}
-
 callback_queue *callback_queue_create(bool enabled) {
   return reinterpret_cast<callback_queue *>(new ros::CallbackQueue(enabled));
 }

@@ -50,6 +50,10 @@ bool ros_isStarted() {
   return ros::isStarted();
 }
 
+callback_queue *ros_getGlobalCallbackQueue() {
+  return reinterpret_cast<callback_queue *>(ros::getGlobalCallbackQueue());
+}
+
 const unsigned char *ros_getROSArg(int argc, const char *const *argv, const char *arg) {
   return (const unsigned char *)ros::getROSArg(argc, argv, arg).c_str();
 }
