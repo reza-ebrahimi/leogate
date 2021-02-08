@@ -6,10 +6,67 @@
 #include <std_msgs/Int16.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Int64.h>
+#include <sensor_msgs/PointField.h>
 #include <sensor_msgs/PointCloud2.h>
 
 #include <json.hpp>
 using json = nlohmann::json;
+
+namespace sensor_msgs {
+void to_json(json &j, const sensor_msgs::PointField &p) {
+  j = json{{"name", p.name}, {"offset", p.offset}, {"datatype", p.datatype}, {"count", p.count}};
+}
+
+void from_json(const json &j, sensor_msgs::PointField &p) {
+  p = j.get<sensor_msgs::PointField>();
+}
+}
+
+static const std::string base64_chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz"
+    "0123456789+/";
+typedef unsigned char BYTE;
+
+std::string base64_encode(BYTE const *buf, unsigned int bufLen) {
+  std::string ret;
+  int i = 0;
+  int j = 0;
+  BYTE char_array_3[3];
+  BYTE char_array_4[4];
+
+  while (bufLen--) {
+    char_array_3[i++] = *(buf++);
+    if (i == 3) {
+      char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+      char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+      char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+      char_array_4[3] = char_array_3[2] & 0x3f;
+
+      for (i = 0; (i < 4); i++)
+        ret += base64_chars[char_array_4[i]];
+      i = 0;
+    }
+  }
+
+  if (i) {
+    for (j = i; j < 3; j++)
+      char_array_3[j] = '\0';
+
+    char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+    char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+    char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+    char_array_4[3] = char_array_3[2] & 0x3f;
+
+    for (j = 0; (j < i + 1); j++)
+      ret += base64_chars[char_array_4[j]];
+
+    while ((i++ < 3))
+      ret += '=';
+  }
+
+  return ret;
+}
 
 class callback_impl {
   callback p_cb;
@@ -26,7 +83,7 @@ class callback_impl {
     ROS_INFO("[std_msgs::Int8] Message Received");
 
     json payload = {
-        {"header", {{"dt", "std_msgs::Int8"}}},
+        {"msg_type", "std_msgs::Int8"},
         {"data", static_cast<int8_t>(msg->data)}
     };
 
@@ -37,7 +94,7 @@ class callback_impl {
     ROS_INFO("[std_msgs::Int16] Message Received");
 
     json payload = {
-        {"header", {{"dt", "std_msgs::Int16"}}},
+        {"msg_type", "std_msgs::Int16"},
         {"data", static_cast<int16_t>(msg->data)}
     };
 
@@ -48,7 +105,7 @@ class callback_impl {
     ROS_INFO("[std_msgs::Int32] Message Received");
 
     json payload = {
-        {"header", {{"dt", "std_msgs::Int32"}}},
+        {"msg_type", "std_msgs::Int32"},
         {"data", static_cast<int32_t>(msg->data)}
     };
 
@@ -59,7 +116,7 @@ class callback_impl {
     ROS_INFO("[std_msgs::Int64] Message Received");
 
     json payload = {
-        {"header", {{"dt", "std_msgs::Int64"}}},
+        {"msg_type", "std_msgs::Int64"},
         {"data", static_cast<int64_t>(msg->data)}
     };
 
@@ -69,15 +126,23 @@ class callback_impl {
   void callback_handler(const sensor_msgs::PointCloud2::ConstPtr &msg) {
     ROS_INFO("[sensor_msgs::PointCloud2] Message Received");
 
+    //std::cout << "Size: " << msg->data.size() << std::endl;
+
+    std::string encodedData = base64_encode(msg->data.data(), msg->data.size());
+
     json payload = {
-        {"header", {{"dt", "sensor_msgs::PointCloud2"}}},
+        {"msg_type", "sensor_msgs::PointCloud2"},
+        {"header", {
+            {"seq", msg->header.seq},
+            {"frame_id", msg->header.frame_id}
+        }},
         {"height", msg->height},
         {"width", msg->width},
-        //{"fields", msg->fields},
+        {"fields", msg->fields},
         {"is_bigendian", static_cast<bool>(msg->is_bigendian)},
         {"point_step", msg->point_step},
         {"row_step", msg->row_step},
-        //{"data", msg->data},
+        {"data", encodedData},
         {"is_dense", static_cast<bool>(msg->is_dense)}
     };
 
@@ -96,27 +161,27 @@ void subscriber_handler::subscribe(void *nh, void *subscriber, const std::string
                                    const std::string &type, uint32_t queue_size, const void *phantom_data,
                                    const callback &cb) {
   callback_map[topic] = std::move(std::make_unique<callback_impl>(phantom_data, cb));
-  callback_impl *p_cb = callback_map[topic].get();
+  callback_impl *cb_obj = callback_map[topic].get();
 
   ros::NodeHandle *nHandle = reinterpret_cast<ros::NodeHandle *>(nh);
   ros::Subscriber *sub = reinterpret_cast<ros::Subscriber *>(subscriber);
 
   // std_msgs
   if (type == "std_msgs::Int8") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int8>(std::string(topic), queue_size, &callback_impl::callback_handler, p_cb));
+    *sub = std::move(nHandle->subscribe<std_msgs::Int8>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
   if (type == "std_msgs::Int16") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int16>(std::string(topic), queue_size, &callback_impl::callback_handler, p_cb));
+    *sub = std::move(nHandle->subscribe<std_msgs::Int16>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
   if (type == "std_msgs::Int32") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int32>(std::string(topic), queue_size, &callback_impl::callback_handler, p_cb));
+    *sub = std::move(nHandle->subscribe<std_msgs::Int32>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
   if (type == "std_msgs::Int64") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int64>(std::string(topic), queue_size, &callback_impl::callback_handler, p_cb));
+    *sub = std::move(nHandle->subscribe<std_msgs::Int64>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
 
   // sensor_msgs
   if (type == "sensor_msgs::PointCloud2") {
-    *sub = std::move(nHandle->subscribe<sensor_msgs::PointCloud2>(std::string(topic), queue_size, &callback_impl::callback_handler, p_cb));
+    *sub = std::move(nHandle->subscribe<sensor_msgs::PointCloud2>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
 }
