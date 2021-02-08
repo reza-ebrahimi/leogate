@@ -20,6 +20,7 @@ Cargo.lock
 
 build/
 devel/
+cmake-build-debug/
 
 *.pyc
 *.project
