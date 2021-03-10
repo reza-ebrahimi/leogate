@@ -22,7 +22,7 @@ extern "C" {
  *
  * @return The master's hostname, as a string
  */
-ROSCPP_DECL const unsigned char* ros_master_getHost(int32_t *len);
+ROSCPP_DECL const unsigned char *ros_master_getHost(int32_t *len);
 
 /** @brief Get the port where the master runs.
  *
@@ -33,7 +33,7 @@ ROSCPP_DECL uint32_t ros_master_getPort();
 /**
  * \brief Get the full URI to the master (eg. http://host:port/)
  */
-ROSCPP_DECL const unsigned char* ros_master_getURI(int32_t *len);
+ROSCPP_DECL const unsigned char *ros_master_getURI(int32_t *len);
 
 /** @brief Check whether the master is up
  *
@@ -58,12 +58,12 @@ ROSCPP_DECL bool ros_master_check();
  *
  * @return true on success, false otherwise (topics not filled in)
  */
-ROSCPP_DECL bool ros_master_getTopics(unsigned char** topics, int32_t *len);
+ROSCPP_DECL bool ros_master_getTopics(unsigned char **topics, int32_t *len);
 
 /**
  * \brief Retreives the currently-known list of nodes from the master
  */
-ROSCPP_DECL bool ros_master_getNodes(unsigned char** nodes, int32_t *len);
+ROSCPP_DECL bool ros_master_getNodes(unsigned char **nodes, int32_t *len);
 
 #ifdef __cplusplus
 }
