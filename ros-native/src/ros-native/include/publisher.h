@@ -53,7 +53,7 @@ uint32_t publisher_getNumSubscribers(publisher *pub);
  */
 bool publisher_isLatched();
 
-void publisher_publish(publisher *pub, const char* message);
+void publisher_publish(publisher *pub, const char *message);
 
 #ifdef __cplusplus
 }
