@@ -6,7 +6,7 @@ void ros_init(const unsigned char *name, uint32_t options) {
   int argc = 0;
   char **argv = NULL;
 
-  const std::string &n = std::string((const char*)name);
+  const std::string &n = std::string((const char *) name);
   ros::init(argc, argv, n, options);
 }
 
@@ -55,11 +55,11 @@ callback_queue *ros_getGlobalCallbackQueue() {
 }
 
 const unsigned char *ros_getROSArg(int argc, const char *const *argv, const char *arg) {
-  return (const unsigned char *)ros::getROSArg(argc, argv, arg).c_str();
+  return (const unsigned char *) ros::getROSArg(argc, argv, arg).c_str();
 }
 
 const unsigned char *ros_getDefaultMasterURI(int32_t *len) {
   const std::string &uri = ros::getDefaultMasterURI();
   *len = uri.length();
-  return (const unsigned char*)uri.c_str();
+  return (const unsigned char *) uri.c_str();
 }

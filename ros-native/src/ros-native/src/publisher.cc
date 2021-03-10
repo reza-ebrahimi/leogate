@@ -25,7 +25,7 @@ bool publisher_isLatched(publisher *pub) {
   return reinterpret_cast<ros::Publisher *>(pub)->isLatched();
 }
 
-void publisher_publish(publisher *pub, const char* message) {
+void publisher_publish(publisher *pub, const char *message) {
   ros::Publisher p = *reinterpret_cast<ros::Publisher *>(pub);
   // TODO for publish
 }
