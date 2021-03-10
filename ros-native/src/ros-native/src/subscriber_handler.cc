@@ -9,6 +9,8 @@
 #include <sensor_msgs/PointField.h>
 #include <sensor_msgs/PointCloud2.h>
 
+#include <chrono>
+
 #include <json.hpp>
 using json = nlohmann::json;
 
@@ -75,63 +77,79 @@ class callback_impl {
  public:
   callback_impl(const void *data, const callback &cb) : p_cb(cb), phantom_data(data) {}
 
-  __always_inline void call_it(const json &payload) const {
-    p_cb(phantom_data, payload.dump(2).c_str());
+  __always_inline void call_it(json_payload *payload, binary_payload *bin_payload = nullptr) const {
+    p_cb(phantom_data, payload, bin_payload);
   }
 
   void callback_handler(const std_msgs::Int8::ConstPtr &msg) {
-    ROS_INFO("[std_msgs::Int8] Message Received");
+    ROS_INFO("[std_msgs/Int8] Message Received");
 
-    json payload = {
-        {"msg_type", "std_msgs::Int8"},
+    std::string json_str = json{
+        {"msg_type", "std_msgs/Int8"},
         {"data", static_cast<int8_t>(msg->data)}
+    }.dump(2);
+
+    json_payload payload = json_payload{
+        .payload =  json_str.c_str(),
+        .size =  json_str.length()
     };
 
-    call_it(payload);
+    call_it(&payload);
   }
 
   void callback_handler(const std_msgs::Int16::ConstPtr &msg) {
-    ROS_INFO("[std_msgs::Int16] Message Received");
+    ROS_INFO("[std_msgs/Int16] Message Received");
 
-    json payload = {
-        {"msg_type", "std_msgs::Int16"},
+    std::string json_str = json{
+        {"msg_type", "std_msgs/Int16"},
         {"data", static_cast<int16_t>(msg->data)}
+    }.dump(2);
+
+    json_payload payload = json_payload{
+        .payload =  json_str.c_str(),
+        .size =  json_str.length()
     };
 
-    call_it(payload);
+    call_it(&payload);
   }
 
   void callback_handler(const std_msgs::Int32::ConstPtr &msg) {
-    ROS_INFO("[std_msgs::Int32] Message Received");
+    ROS_INFO("[std_msgs/Int32] Message Received");
 
-    json payload = {
-        {"msg_type", "std_msgs::Int32"},
+    std::string json_str = json{
+        {"msg_type", "std_msgs/Int32"},
         {"data", static_cast<int32_t>(msg->data)}
+    }.dump(2);
+
+    json_payload payload = json_payload{
+        .payload =  json_str.c_str(),
+        .size =  json_str.length()
     };
 
-    call_it(payload);
+    call_it(&payload);
   }
 
   void callback_handler(const std_msgs::Int64::ConstPtr &msg) {
-    ROS_INFO("[std_msgs::Int64] Message Received");
+    ROS_INFO("[std_msgs/Int64] Message Received");
 
-    json payload = {
-        {"msg_type", "std_msgs::Int64"},
+    std::string json_str = json{
+        {"msg_type", "std_msgs/Int64"},
         {"data", static_cast<int64_t>(msg->data)}
+    }.dump(2);
+
+    json_payload payload = json_payload{
+        .payload =  json_str.c_str(),
+        .size =  json_str.length()
     };
 
-    call_it(payload);
+    call_it(&payload);
   }
 
   void callback_handler(const sensor_msgs::PointCloud2::ConstPtr &msg) {
-    ROS_INFO("[sensor_msgs::PointCloud2] Message Received");
+    ROS_INFO("[sensor_msgs/PointCloud2] Message Received");
 
-    //std::cout << "Size: " << msg->data.size() << std::endl;
-
-    std::string encodedData = base64_encode(msg->data.data(), msg->data.size());
-
-    json payload = {
-        {"msg_type", "sensor_msgs::PointCloud2"},
+    std::string json_str = json{
+        {"msg_type", "sensor_msgs/PointCloud2"},
         {"header", {
             {"seq", msg->header.seq},
             {"frame_id", msg->header.frame_id}
@@ -142,11 +160,34 @@ class callback_impl {
         {"is_bigendian", static_cast<bool>(msg->is_bigendian)},
         {"point_step", msg->point_step},
         {"row_step", msg->row_step},
-        {"data", encodedData},
+        //{"data", encodedData},
         {"is_dense", static_cast<bool>(msg->is_dense)}
+    }.dump(2);
+
+    //auto start = std::chrono::steady_clock::now();
+
+    json_payload payload = json_payload{
+        .payload =  json_str.c_str(),
+        .size =  json_str.length()
     };
 
-    call_it(payload);
+    unsigned char abc[sizeof(size_t) + json_str.length() + msg->data.size()];
+    std::memcpy(&abc[0], &payload.size, sizeof(size_t));
+    std::memcpy(&abc[0] + sizeof(size_t), json_str.c_str(),
+                json_str.length() * sizeof(uint8_t));
+    std::memcpy(&abc[0] + sizeof(size_t) + (json_str.length() * sizeof(uint8_t)),
+                msg->data.data(), msg->data.size() * sizeof(uint8_t));
+
+    binary_payload bin_payload = binary_payload{
+        .payload =  &abc[0],
+        .size =  sizeof(json_str.length()) + json_str.length() + msg->data.size()
+    };
+
+    call_it(&payload, &bin_payload);
+
+    //auto end = std::chrono::steady_clock::now();
+    //auto diff = end - start;
+    //std::cout << std::chrono::duration<double, std::milli>(diff).count() << " ms" << std::endl;
   }
 };
 
@@ -161,27 +202,31 @@ void subscriber_handler::subscribe(void *nh, void *subscriber, const std::string
                                    const std::string &type, uint32_t queue_size, const void *phantom_data,
                                    const callback &cb) {
   callback_map[topic] = std::move(std::make_unique<callback_impl>(phantom_data, cb));
+  create_subscriber(nh, subscriber, topic, type, queue_size);
+}
+
+void subscriber_handler::create_subscriber(void *nh, void *subscriber, const std::string &topic, const std::string &type, uint32_t queue_size) {
   callback_impl *cb_obj = callback_map[topic].get();
 
   ros::NodeHandle *nHandle = reinterpret_cast<ros::NodeHandle *>(nh);
   ros::Subscriber *sub = reinterpret_cast<ros::Subscriber *>(subscriber);
 
   // std_msgs
-  if (type == "std_msgs::Int8") {
+  if (type == "std_msgs/Int8") {
     *sub = std::move(nHandle->subscribe<std_msgs::Int8>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
-  if (type == "std_msgs::Int16") {
+  if (type == "std_msgs/Int16") {
     *sub = std::move(nHandle->subscribe<std_msgs::Int16>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
-  if (type == "std_msgs::Int32") {
+  if (type == "std_msgs/Int32") {
     *sub = std::move(nHandle->subscribe<std_msgs::Int32>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
-  if (type == "std_msgs::Int64") {
+  if (type == "std_msgs/Int64") {
     *sub = std::move(nHandle->subscribe<std_msgs::Int64>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
 
   // sensor_msgs
-  if (type == "sensor_msgs::PointCloud2") {
+  if (type == "sensor_msgs/PointCloud2") {
     *sub = std::move(nHandle->subscribe<sensor_msgs::PointCloud2>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
 }
