@@ -14,7 +14,21 @@ class subscriber_handler {
   subscriber_handler();
   ~subscriber_handler();
 
-  void subscribe(void *nh, void *subscriber, const std::string &topic, const std::string &type, uint32_t queue_size, const void *phantom_data, const callback &cb);
+  void subscribe(
+      void *nh,
+      void *subscriber,
+      const std::string &topic,
+      const std::string &type,
+      uint32_t queue_size,
+      const void *phantom_data,
+      const callback &cb);
+
+  void create_subscriber(
+      void *nh,
+      void *subscriber,
+      const std::string &topic,
+      const std::string &type,
+      uint32_t queue_size);
 
  private:
   std::map<std::string, std::unique_ptr<callback_impl>> callback_map;
