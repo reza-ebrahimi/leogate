@@ -55,9 +55,8 @@ impl Subscriber {
 
 impl Drop for Subscriber {
     fn drop(&mut self) {
-        self.shutdown();
-
         unsafe {
+            ffi::subscriber_shutdown(self.__handle);
             ffi::subscriber_destroy(self.__handle);
         }
 
