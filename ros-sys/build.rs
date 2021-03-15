@@ -7,10 +7,6 @@ fn main() {
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=Cargo.lock");
 
-    println!("cargo:rustc-link-search=native=../ros-native/devel/lib");
-    println!("cargo:rustc-link-lib=dylib=ros-native");
-    println!("cargo:rustc-flags=-l dylib=stdc++");
-
     let out_dir = env::var("OUT_DIR").unwrap();
     println!("OUT_DIR: {}", out_dir);
 
@@ -37,4 +33,8 @@ fn main() {
         .current_dir("../ros-native")
         .status()
         .unwrap();
+
+    println!("cargo:rustc-link-search=native=ros-native/devel/lib");
+    println!("cargo:rustc-link-lib=dylib=ros-native");
+    println!("cargo:rustc-flags=-l dylib=stdc++");
 }
