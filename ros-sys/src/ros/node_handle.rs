@@ -81,5 +81,15 @@ impl NodeHandle {
     }
 }
 
+impl Drop for NodeHandle {
+    fn drop(&mut self) {
+        unsafe {
+            ffi::node_handle_destroy(self.__handle);
+        }
+
+        println!("[Drop] NodeHandle");
+    }
+}
+
 unsafe impl Send for NodeHandle {}
 unsafe impl Sync for NodeHandle {}
