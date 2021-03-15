@@ -76,9 +76,10 @@ impl Ros {
     }
 
     pub fn getGlobalCallbackQueue() {
-        todo!()
+        unimplemented!();
     }
+
     pub fn getROSArg() {
-        todo!()
+        unimplemented!();
     }
 }
