@@ -1,4 +1,5 @@
 #include "init.h"
+
 #include <ros/ros.h>
 #include <string>
 
@@ -7,7 +8,7 @@ void ros_init(const unsigned char *name, uint32_t options) {
   char **argv = NULL;
 
   const std::string &n = std::string((const char *) name);
-  ros::init(argc, argv, n, options);
+  ros::init(argc, argv, n, ros::init_options::NoSigintHandler);
 }
 
 bool ros_isInitialized() {
