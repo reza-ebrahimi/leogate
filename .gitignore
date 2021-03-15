@@ -21,6 +21,7 @@ Cargo.lock
 build/
 devel/
 cmake-build-debug/
+logs/
 
 *.pyc
 *.project
