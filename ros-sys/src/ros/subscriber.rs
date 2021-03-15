@@ -53,5 +53,17 @@ impl Subscriber {
     }
 }
 
+impl Drop for Subscriber {
+    fn drop(&mut self) {
+        self.shutdown();
+
+        unsafe {
+            ffi::subscriber_destroy(self.__handle);
+        }
+
+        println!("[Drop] Subscriber");
+    }
+}
+
 unsafe impl Send for Subscriber {}
 unsafe impl Sync for Subscriber {}
