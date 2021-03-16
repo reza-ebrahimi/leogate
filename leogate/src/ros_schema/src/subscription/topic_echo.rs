@@ -40,26 +40,34 @@ impl TopicEchoSubscription {
 
                 let msg_type = &msg.as_ref().unwrap().msg_type;
                 match msg_type.as_str() {
-                    "std_msgs/Int8" => Some(
-                        serde_json::from_str::<std_msgs::Int8>(json_str)
-                            .ok()?
-                            .into(),
-                    ),
-                    "std_msgs/Int16" => Some(
-                        serde_json::from_str::<std_msgs::Int16>(json_str)
-                            .ok()?
-                            .into(),
-                    ),
-                    "std_msgs/Int32" => Some(
-                        serde_json::from_str::<std_msgs::Int32>(json_str)
-                            .ok()?
-                            .into(),
-                    ),
-                    "std_msgs/Int64" => Some(
-                        serde_json::from_str::<std_msgs::Int64>(json_str)
-                            .ok()?
-                            .into(),
-                    ),
+                    "std_msgs/Int8" => match serde_json::from_str::<std_msgs::Int8>(json_str) {
+                        Ok(d) => Some(d.into()),
+                        Err(e) => {
+                            println!("Error in payload body std_msgs/Int8 => {}", e);
+                            None
+                        }
+                    },
+                    "std_msgs/Int16" => match serde_json::from_str::<std_msgs::Int16>(json_str) {
+                        Ok(d) => Some(d.into()),
+                        Err(e) => {
+                            println!("Error in payload body std_msgs/Int16 => {}", e);
+                            None
+                        }
+                    },
+                    "std_msgs/Int32" => match serde_json::from_str::<std_msgs::Int32>(json_str) {
+                        Ok(d) => Some(d.into()),
+                        Err(e) => {
+                            println!("Error in payload body std_msgs/Int32 => {}", e);
+                            None
+                        }
+                    },
+                    "std_msgs/Int64" => match serde_json::from_str::<std_msgs::Int64>(json_str) {
+                        Ok(d) => Some(d.into()),
+                        Err(e) => {
+                            println!("Error in payload body std_msgs/Int64 => {}", e);
+                            None
+                        }
+                    },
                     _ => None,
                 }
             })
