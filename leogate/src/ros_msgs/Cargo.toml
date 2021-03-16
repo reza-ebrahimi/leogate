@@ -1,0 +1,10 @@
+[package]
+name = "ros_msgs"
+version = "0.1.0"
+authors = ["reza-ebrahimi <reza.ebrahimi.dev@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+async-graphql = "2.5.0"
+serde = "1.0.122"
+serde_json = { version = "1.0.61", features = ["raw_value"] }
