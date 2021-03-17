@@ -111,12 +111,20 @@ impl RosManager {
                 notifier,
             } => {
                 let mut gaurd = inner.lock().await;
-                let subscriber = gaurd
-                    .n_handle
-                    .as_mut()
-                    .unwrap()
-                    .subscribe(&topic, &msg_type, 32, notifier);
-                gaurd.subscribers.insert(topic, subscriber);
+                match gaurd.subscribers.get_mut(&topic) {
+                    Some(subscriber) => {
+                        subscriber.add_notifier(notifier);
+                    }
+                    None => {
+                        let subscriber = gaurd
+                            .n_handle
+                            .as_mut()
+                            .unwrap()
+                            .subscribe(&topic, &msg_type, 32, notifier);
+                        gaurd.subscribers.insert(topic, subscriber);
+                    }
+                }
+
                 println!("[Message] Subscribe");
             }
             Message::ShutdownSubscriber { topic } => {
