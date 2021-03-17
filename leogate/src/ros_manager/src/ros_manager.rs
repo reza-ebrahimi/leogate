@@ -105,7 +105,6 @@ impl RosManager {
                 inner.lock().await.n_handle = Some(NodeHandle::new(node));
                 println!("[Message] CreateNode");
             }
-            Message::DestroyNode { node } => {}
             Message::Subscribe {
                 topic,
                 msg_type,
