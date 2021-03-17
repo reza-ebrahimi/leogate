@@ -10,8 +10,6 @@ unsafe extern "C" fn __callback_fn(
     json: *const ffi::_json_payload,
     binary: *const ffi::_binary_payload,
 ) {
-    let handle = phantom_data as *const Subscriber;
-
     let payload = if binary.is_null() {
         ChannelPayload {
             json: unsafe {
@@ -31,7 +29,8 @@ unsafe extern "C" fn __callback_fn(
         }
     };
 
-    (*handle).__call(payload);
+    let subscriber = phantom_data as *const Subscriber;
+    (*subscriber).__call(payload);
 }
 
 pub struct NodeHandle {
