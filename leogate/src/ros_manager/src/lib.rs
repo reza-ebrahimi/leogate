@@ -11,9 +11,6 @@ pub enum Message {
     CreateNode {
         node: String,
     },
-    DestroyNode {
-        node: String,
-    },
     Subscribe {
         topic: String,
         msg_type: String,
