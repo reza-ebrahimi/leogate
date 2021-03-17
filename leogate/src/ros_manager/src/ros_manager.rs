@@ -2,8 +2,8 @@ pub use ros_sys::*;
 
 use std::sync::Arc;
 
-use futures::stream::Stream;
 use futures::lock::Mutex;
+use futures::stream::Stream;
 
 use super::ros_manager_inner::RosManagerInner;
 use super::subscriber_stream::SubscriberStream;
@@ -170,7 +170,7 @@ impl RosManager {
             });
 
             rt.shutdown_background();
-            
+
             println!("ROS spinner thread exited!");
         });
 
