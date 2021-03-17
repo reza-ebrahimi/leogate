@@ -5,7 +5,7 @@ use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql::*;
 use async_graphql_actix_web::{Request, Response, WSSubscription};
 
-use actix_web::{guard, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Result, guard, http::ContentEncoding, middleware, web};
 use actix_web_actors::ws;
 
 use ros_manager::RosManager;
@@ -71,6 +71,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data(schema.clone())
             .data(ros.clone())
+            .wrap(middleware::Compress::new(ContentEncoding::Auto))
             .service(
                 web::resource("/ws")
                     .guard(guard::Get())
