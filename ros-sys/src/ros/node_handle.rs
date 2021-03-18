@@ -56,13 +56,12 @@ impl NodeHandle {
     topic: &String,
     topic_type: &String,
     queue_size: u32,
-    notifier: Box<tokio::sync::mpsc::Sender<ChannelPayload>>,
   ) -> Box<Subscriber> {
     unsafe {
       let _topic = CString::new(topic.as_str()).expect("CString::new failed");
       let _topic_type = CString::new(topic_type.as_str()).expect("CString::new failed");
 
-      let mut subscriber = Box::new(Subscriber::new(topic, topic_type, notifier));
+      let mut subscriber = Box::new(Subscriber::new(topic, topic_type));
       let subscriber_ptr: *const c_void = subscriber.as_ref() as *const _ as *const c_void;
 
       let ffi_subscriber: *mut ffi::subscriber = ffi::node_handle_subscribe(
