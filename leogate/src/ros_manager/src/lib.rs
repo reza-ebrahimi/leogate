@@ -14,9 +14,11 @@ pub enum Message {
   Subscribe {
     topic: String,
     msg_type: String,
+    notifier_uuid: String,
     notifier: Box<tokio::sync::mpsc::Sender<ChannelPayload>>,
   },
   ShutdownSubscriber {
+    notifier_uuid: String,
     topic: String,
   },
   SpinOnce,

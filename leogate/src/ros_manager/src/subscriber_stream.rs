@@ -11,16 +11,18 @@ pub struct SubscriberStream {
   spinner_sender: tokio::sync::mpsc::Sender<Message>,
   sender: tokio::sync::mpsc::Sender<ChannelPayload>,
   receiver: tokio::sync::mpsc::Receiver<ChannelPayload>,
+  uuid: uuid::Uuid,
 }
 
 impl SubscriberStream {
-  pub fn new(topic: String, sender: tokio::sync::mpsc::Sender<Message>) -> Self {
+  pub fn new(topic: String, sender: tokio::sync::mpsc::Sender<Message>, uuid: uuid::Uuid) -> Self {
     let (tx, rx) = tokio::sync::mpsc::channel::<ChannelPayload>(2048);
     SubscriberStream {
       topic,
       spinner_sender: sender,
       sender: tx,
       receiver: rx,
+      uuid,
     }
   }
 
@@ -33,6 +35,7 @@ impl Drop for SubscriberStream {
   fn drop(&mut self) {
     let msg = Message::ShutdownSubscriber {
       topic: self.topic.clone(),
+      notifier_uuid: self.uuid.to_string(),
     };
 
     match futures::executor::block_on(self.spinner_sender.send(msg)) {

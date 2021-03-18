@@ -46,11 +46,13 @@ impl RosManager {
     topic: String,
     msg_type: String,
   ) -> impl Stream<Item = ChannelPayload> {
-    let stream = SubscriberStream::new(topic.clone(), self.sender_channel().await.clone());
+    let uuid = uuid::Uuid::new_v4();
+    let stream = SubscriberStream::new(topic.clone(), self.sender_channel().await.clone(), uuid);
     self
       .send_message(Message::Subscribe {
         topic,
         msg_type,
+        notifier_uuid: uuid.to_string(),
         notifier: Box::new(stream.sender_channel()),
       })
       .await;
@@ -89,7 +91,7 @@ impl RosManager {
           Ros::init(&String::from("leogated"));
         }
         println!(
-          "[Message] InitializeRos => Ros::is_initialized(): {}",
+          "[RosManager::process_messages] Message::InitializeRos => Ros::is_initialized(): {}",
           Ros::is_initialized()
         );
       }
@@ -98,45 +100,64 @@ impl RosManager {
           Ros::shutdown();
         }
         println!(
-          "[Message] ShutdownRos => Ros::is_shuttingdown(): {}",
+          "[RosManager::process_messages] Message::ShutdownRos => Ros::is_shuttingdown(): {}",
           Ros::is_shuttingdown()
         );
       }
       Message::CreateNode { node } => {
         inner.lock().await.n_handle = Some(NodeHandle::new(node));
-        println!("[Message] CreateNode");
+        println!("[RosManager::process_messages] Message::CreateNode");
       }
       Message::Subscribe {
         topic,
         msg_type,
+        notifier_uuid,
         notifier,
       } => {
         let mut gaurd = inner.lock().await;
         match gaurd.subscribers.get_mut(&topic) {
           Some(subscriber) => {
-            subscriber.add_notifier(notifier);
+            subscriber.add_notifier(notifier_uuid.as_str(), notifier);
           }
           None => {
-            let subscriber = gaurd
+            let mut subscriber = gaurd
               .n_handle
               .as_mut()
               .unwrap()
-              .subscribe(&topic, &msg_type, 32, notifier);
+              .subscribe(&topic, &msg_type, 32);
+            subscriber.add_notifier(notifier_uuid.as_str(), notifier);
             gaurd.subscribers.insert(topic, subscriber);
           }
         }
 
         println!("[Message] Subscribe");
       }
-      Message::ShutdownSubscriber { topic } => {
+      Message::ShutdownSubscriber {
+        topic,
+        notifier_uuid,
+      } => {
         let mut gaurd = inner.lock().await;
-        match gaurd.subscribers.get(&topic) {
+
+        match gaurd.subscribers.get_mut(&topic) {
           Some(subscriber) => {
+            if subscriber.notifiers_count() > 1 {
+              if !subscriber.remove_notifier(notifier_uuid.as_str()) {
+                println!(
+                  "[RosManager::process_messages] Topic notifier failed to remove. 
+                  Topic: {} Subscribers Size: {}",
+                  topic,
+                  gaurd.subscribers.len()
+                );
+              }
+              return;
+            }
+
             subscriber.shutdown();
             match gaurd.subscribers.remove(&topic) {
               Some(_) => {
                 println!(
-                  "[Spinner] Topic removed successfully. Topic: {} Subscribers Size: {}",
+                  "[RosManager::process_messages] Topic removed successfully. 
+                  Topic: {} Subscribers Size: {}",
                   topic,
                   gaurd.subscribers.len()
                 )
