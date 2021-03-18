@@ -5,7 +5,7 @@ pub struct TopicPublishMutation;
 
 #[Object]
 impl TopicPublishMutation {
-    async fn dummy(&self) -> Option<String> {
-        None
-    }
+  async fn dummy(&self) -> Option<String> {
+    None
+  }
 }

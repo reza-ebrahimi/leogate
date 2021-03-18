@@ -5,7 +5,7 @@ pub struct TopicFindQuery;
 
 #[Object]
 impl TopicFindQuery {
-    async fn dummy(&self) -> Option<String> {
-        None
-    }
+  async fn dummy(&self) -> Option<String> {
+    None
+  }
 }

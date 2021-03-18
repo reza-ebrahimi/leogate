@@ -6,18 +6,18 @@ pub use ros_manager::*;
 
 #[derive(Clone, Debug)]
 pub enum Message {
-    InitializeRos,
-    ShutdownRos,
-    CreateNode {
-        node: String,
-    },
-    Subscribe {
-        topic: String,
-        msg_type: String,
-        notifier: Box<tokio::sync::mpsc::Sender<ChannelPayload>>,
-    },
-    ShutdownSubscriber {
-        topic: String,
-    },
-    SpinOnce,
+  InitializeRos,
+  ShutdownRos,
+  CreateNode {
+    node: String,
+  },
+  Subscribe {
+    topic: String,
+    msg_type: String,
+    notifier: Box<tokio::sync::mpsc::Sender<ChannelPayload>>,
+  },
+  ShutdownSubscriber {
+    topic: String,
+  },
+  SpinOnce,
 }
