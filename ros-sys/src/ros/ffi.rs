@@ -251,7 +251,7 @@ pub const SCNxPTR: &'static [u8; 3usize] = b"lx\0";
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct callback_queue {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 pub const CallOneResult_Called: CallOneResult = 0;
 pub const CallOneResult_TryAgain: CallOneResult = 1;
@@ -259,179 +259,179 @@ pub const CallOneResult_Disabled: CallOneResult = 2;
 pub const CallOneResult_Empty: CallOneResult = 3;
 pub type CallOneResult = ::std::os::raw::c_uint;
 extern "C" {
-    pub fn callback_queue_create(enabled: bool) -> *mut callback_queue;
+  pub fn callback_queue_create(enabled: bool) -> *mut callback_queue;
 }
 extern "C" {
-    pub fn callback_queue_destroy(cq: *mut callback_queue);
+  pub fn callback_queue_destroy(cq: *mut callback_queue);
 }
 extern "C" {
-    #[doc = " \\brief Pop a single callback off the front of the queue and invoke it.  If the callback was not ready to be called,"]
-    #[doc = " pushes it back onto the queue."]
-    pub fn callback_queue_callOne(cq: *mut callback_queue) -> CallOneResult;
+  #[doc = " \\brief Pop a single callback off the front of the queue and invoke it.  If the callback was not ready to be called,"]
+  #[doc = " pushes it back onto the queue."]
+  pub fn callback_queue_callOne(cq: *mut callback_queue) -> CallOneResult;
 }
 extern "C" {
-    #[doc = " \\brief Invoke all callbacks currently in the queue.  If a callback was not ready to be called, pushes it back onto the queue."]
-    pub fn callback_queue_callAvailable(cq: *mut callback_queue);
+  #[doc = " \\brief Invoke all callbacks currently in the queue.  If a callback was not ready to be called, pushes it back onto the queue."]
+  pub fn callback_queue_callAvailable(cq: *mut callback_queue);
 }
 extern "C" {
-    #[doc = " \\brief returns whether or not the queue is empty"]
-    pub fn callback_queue_empty(cq: *mut callback_queue) -> bool;
+  #[doc = " \\brief returns whether or not the queue is empty"]
+  pub fn callback_queue_empty(cq: *mut callback_queue) -> bool;
 }
 extern "C" {
-    #[doc = " \\brief returns whether or not the queue is empty"]
-    pub fn callback_queue_isEmpty(cq: *mut callback_queue) -> bool;
+  #[doc = " \\brief returns whether or not the queue is empty"]
+  pub fn callback_queue_isEmpty(cq: *mut callback_queue) -> bool;
 }
 extern "C" {
-    #[doc = " \\brief Removes all callbacks from the queue.  Does \\b not wait for calls currently in progress to finish."]
-    pub fn callback_queue_clear(cq: *mut callback_queue);
+  #[doc = " \\brief Removes all callbacks from the queue.  Does \\b not wait for calls currently in progress to finish."]
+  pub fn callback_queue_clear(cq: *mut callback_queue);
 }
 extern "C" {
-    #[doc = " \\brief Enable the queue (queue is enabled by default)"]
-    pub fn callback_queue_enable(cq: *mut callback_queue);
+  #[doc = " \\brief Enable the queue (queue is enabled by default)"]
+  pub fn callback_queue_enable(cq: *mut callback_queue);
 }
 extern "C" {
-    #[doc = " \\brief Disable the queue, meaning any calls to addCallback() will have no effect"]
-    pub fn callback_queue_disable(cq: *mut callback_queue);
+  #[doc = " \\brief Disable the queue, meaning any calls to addCallback() will have no effect"]
+  pub fn callback_queue_disable(cq: *mut callback_queue);
 }
 extern "C" {
-    #[doc = " \\brief Returns whether or not this queue is enabled"]
-    pub fn callback_queue_isEnabled(cq: *mut callback_queue) -> bool;
+  #[doc = " \\brief Returns whether or not this queue is enabled"]
+  pub fn callback_queue_isEnabled(cq: *mut callback_queue) -> bool;
 }
 pub type wchar_t = ::std::os::raw::c_int;
 #[repr(C)]
 #[repr(align(16))]
 #[derive(Copy, Clone)]
 pub struct max_align_t {
-    pub __clang_max_align_nonce1: ::std::os::raw::c_longlong,
-    pub __bindgen_padding_0: u64,
-    pub __clang_max_align_nonce2: u128,
+  pub __clang_max_align_nonce1: ::std::os::raw::c_longlong,
+  pub __bindgen_padding_0: u64,
+  pub __clang_max_align_nonce2: u128,
 }
 #[test]
 fn bindgen_test_layout_max_align_t() {
-    assert_eq!(
-        ::std::mem::size_of::<max_align_t>(),
-        32usize,
-        concat!("Size of: ", stringify!(max_align_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<max_align_t>(),
-        16usize,
-        concat!("Alignment of ", stringify!(max_align_t))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<max_align_t>())).__clang_max_align_nonce1 as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(max_align_t),
-            "::",
-            stringify!(__clang_max_align_nonce1)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<max_align_t>())).__clang_max_align_nonce2 as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(max_align_t),
-            "::",
-            stringify!(__clang_max_align_nonce2)
-        )
-    );
+  assert_eq!(
+    ::std::mem::size_of::<max_align_t>(),
+    32usize,
+    concat!("Size of: ", stringify!(max_align_t))
+  );
+  assert_eq!(
+    ::std::mem::align_of::<max_align_t>(),
+    16usize,
+    concat!("Alignment of ", stringify!(max_align_t))
+  );
+  assert_eq!(
+    unsafe {
+      &(*(::std::ptr::null::<max_align_t>())).__clang_max_align_nonce1 as *const _ as usize
+    },
+    0usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(max_align_t),
+      "::",
+      stringify!(__clang_max_align_nonce1)
+    )
+  );
+  assert_eq!(
+    unsafe {
+      &(*(::std::ptr::null::<max_align_t>())).__clang_max_align_nonce2 as *const _ as usize
+    },
+    16usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(max_align_t),
+      "::",
+      stringify!(__clang_max_align_nonce2)
+    )
+  );
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct _binary_payload {
-    pub payload: *const ::std::os::raw::c_uchar,
-    pub size: usize,
+  pub payload: *const ::std::os::raw::c_uchar,
+  pub size: usize,
 }
 #[test]
 fn bindgen_test_layout__binary_payload() {
-    assert_eq!(
-        ::std::mem::size_of::<_binary_payload>(),
-        16usize,
-        concat!("Size of: ", stringify!(_binary_payload))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_binary_payload>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_binary_payload))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_binary_payload>())).payload as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_binary_payload),
-            "::",
-            stringify!(payload)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_binary_payload>())).size as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_binary_payload),
-            "::",
-            stringify!(size)
-        )
-    );
+  assert_eq!(
+    ::std::mem::size_of::<_binary_payload>(),
+    16usize,
+    concat!("Size of: ", stringify!(_binary_payload))
+  );
+  assert_eq!(
+    ::std::mem::align_of::<_binary_payload>(),
+    8usize,
+    concat!("Alignment of ", stringify!(_binary_payload))
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<_binary_payload>())).payload as *const _ as usize },
+    0usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(_binary_payload),
+      "::",
+      stringify!(payload)
+    )
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<_binary_payload>())).size as *const _ as usize },
+    8usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(_binary_payload),
+      "::",
+      stringify!(size)
+    )
+  );
 }
 pub type binary_payload = _binary_payload;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct _json_payload {
-    pub payload: *const ::std::os::raw::c_char,
-    pub size: usize,
+  pub payload: *const ::std::os::raw::c_char,
+  pub size: usize,
 }
 #[test]
 fn bindgen_test_layout__json_payload() {
-    assert_eq!(
-        ::std::mem::size_of::<_json_payload>(),
-        16usize,
-        concat!("Size of: ", stringify!(_json_payload))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_json_payload>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_json_payload))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_json_payload>())).payload as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_json_payload),
-            "::",
-            stringify!(payload)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_json_payload>())).size as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_json_payload),
-            "::",
-            stringify!(size)
-        )
-    );
+  assert_eq!(
+    ::std::mem::size_of::<_json_payload>(),
+    16usize,
+    concat!("Size of: ", stringify!(_json_payload))
+  );
+  assert_eq!(
+    ::std::mem::align_of::<_json_payload>(),
+    8usize,
+    concat!("Alignment of ", stringify!(_json_payload))
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<_json_payload>())).payload as *const _ as usize },
+    0usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(_json_payload),
+      "::",
+      stringify!(payload)
+    )
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<_json_payload>())).size as *const _ as usize },
+    8usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(_json_payload),
+      "::",
+      stringify!(size)
+    )
+  );
 }
 pub type json_payload = _json_payload;
 pub type callback = ::std::option::Option<
-    unsafe extern "C" fn(
-        phantom_data: *const ::std::os::raw::c_void,
-        payload: *const json_payload,
-        bin_payload: *const binary_payload,
-    ),
+  unsafe extern "C" fn(
+    phantom_data: *const ::std::os::raw::c_void,
+    payload: *const json_payload,
+    bin_payload: *const binary_payload,
+  ),
 >;
 extern "C" {
-    pub fn ros_disableAllSignalsInThisThread();
+  pub fn ros_disableAllSignalsInThisThread();
 }
 pub type __u_char = ::std::os::raw::c_uchar;
 pub type __u_short = ::std::os::raw::c_ushort;
@@ -462,30 +462,30 @@ pub type __pid_t = ::std::os::raw::c_int;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct __fsid_t {
-    pub __val: [::std::os::raw::c_int; 2usize],
+  pub __val: [::std::os::raw::c_int; 2usize],
 }
 #[test]
 fn bindgen_test_layout___fsid_t() {
-    assert_eq!(
-        ::std::mem::size_of::<__fsid_t>(),
-        8usize,
-        concat!("Size of: ", stringify!(__fsid_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__fsid_t>(),
-        4usize,
-        concat!("Alignment of ", stringify!(__fsid_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__fsid_t>())).__val as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__fsid_t),
-            "::",
-            stringify!(__val)
-        )
-    );
+  assert_eq!(
+    ::std::mem::size_of::<__fsid_t>(),
+    8usize,
+    concat!("Size of: ", stringify!(__fsid_t))
+  );
+  assert_eq!(
+    ::std::mem::align_of::<__fsid_t>(),
+    4usize,
+    concat!("Alignment of ", stringify!(__fsid_t))
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<__fsid_t>())).__val as *const _ as usize },
+    0usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(__fsid_t),
+      "::",
+      stringify!(__val)
+    )
+  );
 }
 pub type __clock_t = ::std::os::raw::c_long;
 pub type __rlim_t = ::std::os::raw::c_ulong;
@@ -536,75 +536,75 @@ pub type __gwchar_t = ::std::os::raw::c_int;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct imaxdiv_t {
-    pub quot: ::std::os::raw::c_long,
-    pub rem: ::std::os::raw::c_long,
+  pub quot: ::std::os::raw::c_long,
+  pub rem: ::std::os::raw::c_long,
 }
 #[test]
 fn bindgen_test_layout_imaxdiv_t() {
-    assert_eq!(
-        ::std::mem::size_of::<imaxdiv_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(imaxdiv_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<imaxdiv_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(imaxdiv_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<imaxdiv_t>())).quot as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(imaxdiv_t),
-            "::",
-            stringify!(quot)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<imaxdiv_t>())).rem as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(imaxdiv_t),
-            "::",
-            stringify!(rem)
-        )
-    );
+  assert_eq!(
+    ::std::mem::size_of::<imaxdiv_t>(),
+    16usize,
+    concat!("Size of: ", stringify!(imaxdiv_t))
+  );
+  assert_eq!(
+    ::std::mem::align_of::<imaxdiv_t>(),
+    8usize,
+    concat!("Alignment of ", stringify!(imaxdiv_t))
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<imaxdiv_t>())).quot as *const _ as usize },
+    0usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(imaxdiv_t),
+      "::",
+      stringify!(quot)
+    )
+  );
+  assert_eq!(
+    unsafe { &(*(::std::ptr::null::<imaxdiv_t>())).rem as *const _ as usize },
+    8usize,
+    concat!(
+      "Offset of field: ",
+      stringify!(imaxdiv_t),
+      "::",
+      stringify!(rem)
+    )
+  );
 }
 extern "C" {
-    pub fn imaxabs(__n: intmax_t) -> intmax_t;
+  pub fn imaxabs(__n: intmax_t) -> intmax_t;
 }
 extern "C" {
-    pub fn imaxdiv(__numer: intmax_t, __denom: intmax_t) -> imaxdiv_t;
+  pub fn imaxdiv(__numer: intmax_t, __denom: intmax_t) -> imaxdiv_t;
 }
 extern "C" {
-    pub fn strtoimax(
-        __nptr: *const ::std::os::raw::c_char,
-        __endptr: *mut *mut ::std::os::raw::c_char,
-        __base: ::std::os::raw::c_int,
-    ) -> intmax_t;
+  pub fn strtoimax(
+    __nptr: *const ::std::os::raw::c_char,
+    __endptr: *mut *mut ::std::os::raw::c_char,
+    __base: ::std::os::raw::c_int,
+  ) -> intmax_t;
 }
 extern "C" {
-    pub fn strtoumax(
-        __nptr: *const ::std::os::raw::c_char,
-        __endptr: *mut *mut ::std::os::raw::c_char,
-        __base: ::std::os::raw::c_int,
-    ) -> uintmax_t;
+  pub fn strtoumax(
+    __nptr: *const ::std::os::raw::c_char,
+    __endptr: *mut *mut ::std::os::raw::c_char,
+    __base: ::std::os::raw::c_int,
+  ) -> uintmax_t;
 }
 extern "C" {
-    pub fn wcstoimax(
-        __nptr: *const __gwchar_t,
-        __endptr: *mut *mut __gwchar_t,
-        __base: ::std::os::raw::c_int,
-    ) -> intmax_t;
+  pub fn wcstoimax(
+    __nptr: *const __gwchar_t,
+    __endptr: *mut *mut __gwchar_t,
+    __base: ::std::os::raw::c_int,
+  ) -> intmax_t;
 }
 extern "C" {
-    pub fn wcstoumax(
-        __nptr: *const __gwchar_t,
-        __endptr: *mut *mut __gwchar_t,
-        __base: ::std::os::raw::c_int,
-    ) -> uintmax_t;
+  pub fn wcstoumax(
+    __nptr: *const __gwchar_t,
+    __endptr: *mut *mut __gwchar_t,
+    __base: ::std::os::raw::c_int,
+  ) -> uintmax_t;
 }
 #[doc = " Don't install a SIGINT handler.  You should install your own SIGINT handler in this"]
 #[doc = " case, to ensure that the node gets shutdown correctly when it exits."]
@@ -615,415 +615,413 @@ pub const InitOption_AnonymousName: InitOption = 2;
 pub const InitOption_NoRosout: InitOption = 4;
 pub type InitOption = ::std::os::raw::c_uint;
 extern "C" {
-    #[doc = " @brief ROS initialization function."]
-    #[doc = ""]
-    #[doc = " This function will parse any ROS arguments (e.g., topic name"]
-    #[doc = " remappings), and will consume them (i.e., argc and argv may be modified"]
-    #[doc = " as a result of this call)."]
-    #[doc = ""]
-    #[doc = " Use this version if you are using the NodeHandle API"]
-    #[doc = ""]
-    #[doc = " \\param argc"]
-    #[doc = " \\param argv"]
-    #[doc = " \\param name Name of this node.  The name must be a base name, ie. it cannot contain namespaces."]
-    #[doc = " \\param options [optional] Options to start the node with (a set of bit flags from \\ref ros::init_options)"]
-    #[doc = " \\throws InvalidNodeNameException If the name passed in is not a valid \"base\" name"]
-    #[doc = ""]
-    pub fn ros_init(name: *const ::std::os::raw::c_uchar, options: u32);
+  #[doc = " @brief ROS initialization function."]
+  #[doc = ""]
+  #[doc = " This function will parse any ROS arguments (e.g., topic name"]
+  #[doc = " remappings), and will consume them (i.e., argc and argv may be modified"]
+  #[doc = " as a result of this call)."]
+  #[doc = ""]
+  #[doc = " Use this version if you are using the NodeHandle API"]
+  #[doc = ""]
+  #[doc = " \\param argc"]
+  #[doc = " \\param argv"]
+  #[doc = " \\param name Name of this node.  The name must be a base name, ie. it cannot contain namespaces."]
+  #[doc = " \\param options [optional] Options to start the node with (a set of bit flags from \\ref ros::init_options)"]
+  #[doc = " \\throws InvalidNodeNameException If the name passed in is not a valid \"base\" name"]
+  #[doc = ""]
+  pub fn ros_init(name: *const ::std::os::raw::c_uchar, options: u32);
 }
 extern "C" {
-    #[doc = " \\brief Returns whether or not ros::init() has been called"]
-    pub fn ros_isInitialized() -> bool;
+  #[doc = " \\brief Returns whether or not ros::init() has been called"]
+  pub fn ros_isInitialized() -> bool;
 }
 extern "C" {
-    #[doc = " \\brief Returns whether or not ros::shutdown() has been (or is being) called"]
-    pub fn ros_isShuttingDown() -> bool;
+  #[doc = " \\brief Returns whether or not ros::shutdown() has been (or is being) called"]
+  pub fn ros_isShuttingDown() -> bool;
 }
 extern "C" {
-    #[doc = " \\brief Enter simple event loop"]
-    #[doc = ""]
-    #[doc = " This method enters a loop, processing callbacks.  This method should only be used"]
-    #[doc = " if the NodeHandle API is being used."]
-    #[doc = ""]
-    #[doc = " This method is mostly useful when your node does all of its work in"]
-    #[doc = " subscription callbacks.  It will not process any callbacks that have been assigned to"]
-    #[doc = " custom queues."]
-    #[doc = ""]
-    pub fn ros_spin();
+  #[doc = " \\brief Enter simple event loop"]
+  #[doc = ""]
+  #[doc = " This method enters a loop, processing callbacks.  This method should only be used"]
+  #[doc = " if the NodeHandle API is being used."]
+  #[doc = ""]
+  #[doc = " This method is mostly useful when your node does all of its work in"]
+  #[doc = " subscription callbacks.  It will not process any callbacks that have been assigned to"]
+  #[doc = " custom queues."]
+  #[doc = ""]
+  pub fn ros_spin();
 }
 extern "C" {
-    #[doc = " \\brief Process a single round of callbacks."]
-    #[doc = ""]
-    #[doc = " This method is useful if you have your own loop running and would like to process"]
-    #[doc = " any callbacks that are available.  This is equivalent to calling callAvailable() on the"]
-    #[doc = " global CallbackQueue.  It will not process any callbacks that have been assigned to"]
-    #[doc = " custom queues."]
-    pub fn ros_spinOnce();
+  #[doc = " \\brief Process a single round of callbacks."]
+  #[doc = ""]
+  #[doc = " This method is useful if you have your own loop running and would like to process"]
+  #[doc = " any callbacks that are available.  This is equivalent to calling callAvailable() on the"]
+  #[doc = " global CallbackQueue.  It will not process any callbacks that have been assigned to"]
+  #[doc = " custom queues."]
+  pub fn ros_spinOnce();
 }
 extern "C" {
-    #[doc = " \\brief Wait for this node to be shutdown, whether through Ctrl-C, ros::shutdown(), or similar."]
-    pub fn ros_waitForShutdown();
+  #[doc = " \\brief Wait for this node to be shutdown, whether through Ctrl-C, ros::shutdown(), or similar."]
+  pub fn ros_waitForShutdown();
 }
 extern "C" {
-    #[doc = " \\brief Check whether it's time to exit."]
-    #[doc = ""]
-    #[doc = " ok() becomes false once ros::shutdown() has been called and is finished"]
-    #[doc = ""]
-    #[doc = " \\return true if we're still OK, false if it's time to exit"]
-    pub fn ros_ok() -> bool;
+  #[doc = " \\brief Check whether it's time to exit."]
+  #[doc = ""]
+  #[doc = " ok() becomes false once ros::shutdown() has been called and is finished"]
+  #[doc = ""]
+  #[doc = " \\return true if we're still OK, false if it's time to exit"]
+  pub fn ros_ok() -> bool;
 }
 extern "C" {
-    #[doc = " \\brief Disconnects everything and unregisters from the master.  It is generally not"]
-    #[doc = " necessary to call this function, as the node will automatically shutdown when all"]
-    #[doc = " NodeHandles destruct.  However, if you want to break out of a spin() loop explicitly,"]
-    #[doc = " this function allows that."]
-    pub fn ros_shutdown();
+  #[doc = " \\brief Disconnects everything and unregisters from the master.  It is generally not"]
+  #[doc = " necessary to call this function, as the node will automatically shutdown when all"]
+  #[doc = " NodeHandles destruct.  However, if you want to break out of a spin() loop explicitly,"]
+  #[doc = " this function allows that."]
+  pub fn ros_shutdown();
 }
 extern "C" {
-    #[doc = " \\brief Request that the node shut itself down from within a ROS thread"]
-    #[doc = ""]
-    #[doc = " This method signals a ROS thread to call shutdown()."]
-    pub fn ros_requestShutdown();
+  #[doc = " \\brief Request that the node shut itself down from within a ROS thread"]
+  #[doc = ""]
+  #[doc = " This method signals a ROS thread to call shutdown()."]
+  pub fn ros_requestShutdown();
 }
 extern "C" {
-    #[doc = " \\brief Actually starts the internals of the node (spins up threads, starts the network polling and xmlrpc loops,"]
-    #[doc = " connects to internal subscriptions like /clock, starts internal service servers, etc.)."]
-    #[doc = ""]
-    #[doc = " Usually unnecessary to call manually, as it is automatically called by the creation of the first NodeHandle if"]
-    #[doc = " the node has not already been started.  If you would like to prevent the automatic shutdown caused by the last"]
-    #[doc = " NodeHandle going out of scope, call this before any NodeHandle has been created (e.g. immediately after init())"]
-    pub fn ros_start();
+  #[doc = " \\brief Actually starts the internals of the node (spins up threads, starts the network polling and xmlrpc loops,"]
+  #[doc = " connects to internal subscriptions like /clock, starts internal service servers, etc.)."]
+  #[doc = ""]
+  #[doc = " Usually unnecessary to call manually, as it is automatically called by the creation of the first NodeHandle if"]
+  #[doc = " the node has not already been started.  If you would like to prevent the automatic shutdown caused by the last"]
+  #[doc = " NodeHandle going out of scope, call this before any NodeHandle has been created (e.g. immediately after init())"]
+  pub fn ros_start();
 }
 extern "C" {
-    #[doc = " \\brief Returns whether or not the node has been started through ros::start()"]
-    pub fn ros_isStarted() -> bool;
+  #[doc = " \\brief Returns whether or not the node has been started through ros::start()"]
+  pub fn ros_isStarted() -> bool;
 }
 extern "C" {
-    #[doc = " \\brief Returns a pointer to the global default callback queue."]
-    #[doc = ""]
-    #[doc = " This is the queue that all callbacks get added to unless a different one is specified, either in the NodeHandle"]
-    #[doc = " or in the individual NodeHandle::subscribe()/NodeHandle::advertise()/etc. functions."]
-    pub fn ros_getGlobalCallbackQueue() -> *mut callback_queue;
+  #[doc = " \\brief Returns a pointer to the global default callback queue."]
+  #[doc = ""]
+  #[doc = " This is the queue that all callbacks get added to unless a different one is specified, either in the NodeHandle"]
+  #[doc = " or in the individual NodeHandle::subscribe()/NodeHandle::advertise()/etc. functions."]
+  pub fn ros_getGlobalCallbackQueue() -> *mut callback_queue;
 }
 extern "C" {
-    #[doc = " \\brief searches the command line arguments for the given arg parameter. In case this argument is not found"]
-    #[doc = " an empty string is returned."]
-    #[doc = ""]
-    #[doc = " \\param argc the number of command-line arguments"]
-    #[doc = " \\param argv the command-line arguments"]
-    #[doc = " \\param arg argument to search for"]
-    pub fn ros_getROSArg(
-        argc: ::std::os::raw::c_int,
-        argv: *const *const ::std::os::raw::c_char,
-        arg: *const ::std::os::raw::c_char,
-    ) -> *const ::std::os::raw::c_uchar;
+  #[doc = " \\brief searches the command line arguments for the given arg parameter. In case this argument is not found"]
+  #[doc = " an empty string is returned."]
+  #[doc = ""]
+  #[doc = " \\param argc the number of command-line arguments"]
+  #[doc = " \\param argv the command-line arguments"]
+  #[doc = " \\param arg argument to search for"]
+  pub fn ros_getROSArg(
+    argc: ::std::os::raw::c_int,
+    argv: *const *const ::std::os::raw::c_char,
+    arg: *const ::std::os::raw::c_char,
+  ) -> *const ::std::os::raw::c_uchar;
 }
 extern "C" {
-    #[doc = " \\brief returns the default master uri that is used if no other is specified, e.g. by defining ROS_MASTER_URI."]
-    pub fn ros_getDefaultMasterURI(len: *mut i32) -> *const ::std::os::raw::c_uchar;
+  #[doc = " \\brief returns the default master uri that is used if no other is specified, e.g. by defining ROS_MASTER_URI."]
+  pub fn ros_getDefaultMasterURI(len: *mut i32) -> *const ::std::os::raw::c_uchar;
 }
 extern "C" {
-    #[doc = " @brief Get the hostname where the master runs."]
-    #[doc = ""]
-    #[doc = " @return The master's hostname, as a string"]
-    pub fn ros_master_getHost(len: *mut i32) -> *const ::std::os::raw::c_uchar;
+  #[doc = " @brief Get the hostname where the master runs."]
+  #[doc = ""]
+  #[doc = " @return The master's hostname, as a string"]
+  pub fn ros_master_getHost(len: *mut i32) -> *const ::std::os::raw::c_uchar;
 }
 extern "C" {
-    #[doc = " @brief Get the port where the master runs."]
-    #[doc = ""]
-    #[doc = " @return The master's port."]
-    pub fn ros_master_getPort() -> u32;
+  #[doc = " @brief Get the port where the master runs."]
+  #[doc = ""]
+  #[doc = " @return The master's port."]
+  pub fn ros_master_getPort() -> u32;
 }
 extern "C" {
-    #[doc = " \\brief Get the full URI to the master (eg. http://host:port/)"]
-    pub fn ros_master_getURI(len: *mut i32) -> *const ::std::os::raw::c_uchar;
+  #[doc = " \\brief Get the full URI to the master (eg. http://host:port/)"]
+  pub fn ros_master_getURI(len: *mut i32) -> *const ::std::os::raw::c_uchar;
 }
 extern "C" {
-    #[doc = " @brief Check whether the master is up"]
-    #[doc = ""]
-    #[doc = " This method tries to contact the master.  You can call it any time"]
-    #[doc = " after ros::init has been called.  The intended usage is to check"]
-    #[doc = " whether the master is up before trying to make other requests"]
-    #[doc = " (subscriptions, advertisements, etc.)."]
-    #[doc = ""]
-    #[doc = " @returns true if the master is available, false otherwise."]
-    pub fn ros_master_check() -> bool;
+  #[doc = " @brief Check whether the master is up"]
+  #[doc = ""]
+  #[doc = " This method tries to contact the master.  You can call it any time"]
+  #[doc = " after ros::init has been called.  The intended usage is to check"]
+  #[doc = " whether the master is up before trying to make other requests"]
+  #[doc = " (subscriptions, advertisements, etc.)."]
+  #[doc = ""]
+  #[doc = " @returns true if the master is available, false otherwise."]
+  pub fn ros_master_check() -> bool;
 }
 extern "C" {
-    #[doc = " @brief Get the list of topics that are being published by all nodes."]
-    #[doc = ""]
-    #[doc = " This method communicates with the master to retrieve the list of all"]
-    #[doc = " currently advertised topics."]
-    #[doc = ""]
-    #[doc = " @param topics A place to store the resulting list.  Each item in the"]
-    #[doc = " list is a pair <string topic, string type>.  The type is represented"]
-    #[doc = " in the format \"package_name/MessageName\", and is also retrievable"]
-    #[doc = " through message.__getDataType() or MessageName::__s_getDataType()."]
-    #[doc = ""]
-    #[doc = " @return true on success, false otherwise (topics not filled in)"]
-    pub fn ros_master_getTopics(topics: *mut *mut ::std::os::raw::c_uchar, len: *mut i32) -> bool;
+  #[doc = " @brief Get the list of topics that are being published by all nodes."]
+  #[doc = ""]
+  #[doc = " This method communicates with the master to retrieve the list of all"]
+  #[doc = " currently advertised topics."]
+  #[doc = ""]
+  #[doc = " @param topics A place to store the resulting list.  Each item in the"]
+  #[doc = " list is a pair <string topic, string type>.  The type is represented"]
+  #[doc = " in the format \"package_name/MessageName\", and is also retrievable"]
+  #[doc = " through message.__getDataType() or MessageName::__s_getDataType()."]
+  #[doc = ""]
+  #[doc = " @return true on success, false otherwise (topics not filled in)"]
+  pub fn ros_master_getTopics(topics: *mut *mut ::std::os::raw::c_uchar, len: *mut i32) -> bool;
 }
 extern "C" {
-    #[doc = " \\brief Retreives the currently-known list of nodes from the master"]
-    pub fn ros_master_getNodes(nodes: *mut *mut ::std::os::raw::c_uchar, len: *mut i32) -> bool;
+  #[doc = " \\brief Retreives the currently-known list of nodes from the master"]
+  pub fn ros_master_getNodes(nodes: *mut *mut ::std::os::raw::c_uchar, len: *mut i32) -> bool;
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct subscriber {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 extern "C" {
-    pub fn subscriber_create() -> *mut subscriber;
+  pub fn subscriber_create() -> *mut subscriber;
 }
 extern "C" {
-    pub fn subscriber_destroy(sub: *mut subscriber);
+  pub fn subscriber_destroy(sub: *mut subscriber);
 }
 extern "C" {
-    #[doc = " \\brief Unsubscribe the callback associated with this Subscriber"]
-    #[doc = ""]
-    #[doc = " This method usually does not need to be explicitly called, as automatic shutdown happens when"]
-    #[doc = " all copies of this Subscriber go out of scope"]
-    #[doc = ""]
-    #[doc = " This method overrides the automatic reference counted unsubscribe, and immediately"]
-    #[doc = " unsubscribes the callback associated with this Subscriber"]
-    pub fn subscriber_shutdown(sub: *mut subscriber);
+  #[doc = " \\brief Unsubscribe the callback associated with this Subscriber"]
+  #[doc = ""]
+  #[doc = " This method usually does not need to be explicitly called, as automatic shutdown happens when"]
+  #[doc = " all copies of this Subscriber go out of scope"]
+  #[doc = ""]
+  #[doc = " This method overrides the automatic reference counted unsubscribe, and immediately"]
+  #[doc = " unsubscribes the callback associated with this Subscriber"]
+  pub fn subscriber_shutdown(sub: *mut subscriber);
 }
 extern "C" {
-    pub fn subscriber_getTopic(sub: *mut subscriber) -> *const ::std::os::raw::c_char;
+  pub fn subscriber_getTopic(sub: *mut subscriber) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    #[doc = " \\brief Returns the number of publishers this subscriber is connected to"]
-    pub fn subscriber_getNumPublishers(sub: *mut subscriber) -> u32;
+  #[doc = " \\brief Returns the number of publishers this subscriber is connected to"]
+  pub fn subscriber_getNumPublishers(sub: *mut subscriber) -> u32;
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct publisher {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 extern "C" {
-    pub fn publisher_create() -> *mut publisher;
+  pub fn publisher_create() -> *mut publisher;
 }
 extern "C" {
-    pub fn publisher_destroy(pub_: *mut publisher);
+  pub fn publisher_destroy(pub_: *mut publisher);
 }
 extern "C" {
-    #[doc = " \\brief Shutdown the advertisement associated with this Publisher"]
-    #[doc = ""]
-    #[doc = " This method usually does not need to be explicitly called, as automatic shutdown happens when"]
-    #[doc = " all copies of this Publisher go out of scope"]
-    #[doc = ""]
-    #[doc = " This method overrides the automatic reference counted unadvertise, and does so immediately."]
-    #[doc = " \\note Note that if multiple advertisements were made through NodeHandle::advertise(), this will"]
-    #[doc = " only remove the one associated with this Publisher"]
-    pub fn publisher_shutdown(pub_: *mut publisher);
+  #[doc = " \\brief Shutdown the advertisement associated with this Publisher"]
+  #[doc = ""]
+  #[doc = " This method usually does not need to be explicitly called, as automatic shutdown happens when"]
+  #[doc = " all copies of this Publisher go out of scope"]
+  #[doc = ""]
+  #[doc = " This method overrides the automatic reference counted unadvertise, and does so immediately."]
+  #[doc = " \\note Note that if multiple advertisements were made through NodeHandle::advertise(), this will"]
+  #[doc = " only remove the one associated with this Publisher"]
+  pub fn publisher_shutdown(pub_: *mut publisher);
 }
 extern "C" {
-    #[doc = " \\brief Returns the topic that this Publisher will publish on."]
-    pub fn publisher_getTopic(pub_: *mut publisher) -> *const ::std::os::raw::c_char;
+  #[doc = " \\brief Returns the topic that this Publisher will publish on."]
+  pub fn publisher_getTopic(pub_: *mut publisher) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    #[doc = " \\brief Returns the number of subscribers that are currently connected to this Publisher"]
-    pub fn publisher_getNumSubscribers(pub_: *mut publisher) -> u32;
+  #[doc = " \\brief Returns the number of subscribers that are currently connected to this Publisher"]
+  pub fn publisher_getNumSubscribers(pub_: *mut publisher) -> u32;
 }
 extern "C" {
-    #[doc = " \\brief Returns whether or not this topic is latched"]
-    pub fn publisher_isLatched() -> bool;
+  #[doc = " \\brief Returns whether or not this topic is latched"]
+  pub fn publisher_isLatched() -> bool;
 }
 extern "C" {
-    pub fn publisher_publish(pub_: *mut publisher, message: *const ::std::os::raw::c_char);
+  pub fn publisher_publish(pub_: *mut publisher, message: *const ::std::os::raw::c_char);
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct node_handle {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 extern "C" {
-    pub fn node_handle_create(nh: *const ::std::os::raw::c_char) -> *mut node_handle;
+  pub fn node_handle_create(nh: *const ::std::os::raw::c_char) -> *mut node_handle;
 }
 extern "C" {
-    pub fn node_handle_destroy(nh: *mut node_handle);
+  pub fn node_handle_destroy(nh: *mut node_handle);
 }
 extern "C" {
-    #[doc = " \\brief Set the default callback queue to be used by this NodeHandle."]
-    #[doc = ""]
-    #[doc = " Setting this will cause any callbacks from"]
-    #[doc = " advertisements/subscriptions/services/etc. to happen through the"]
-    #[doc = " use of the specified queue.  NULL (the default) causes the global"]
-    #[doc = " queue (serviced by ros::spin() and ros::spinOnce()) to be used."]
-    pub fn node_handle_setCallbackQueue(nh: *mut node_handle, queue: *mut callback_queue);
+  #[doc = " \\brief Set the default callback queue to be used by this NodeHandle."]
+  #[doc = ""]
+  #[doc = " Setting this will cause any callbacks from"]
+  #[doc = " advertisements/subscriptions/services/etc. to happen through the"]
+  #[doc = " use of the specified queue.  NULL (the default) causes the global"]
+  #[doc = " queue (serviced by ros::spin() and ros::spinOnce()) to be used."]
+  pub fn node_handle_setCallbackQueue(nh: *mut node_handle, queue: *mut callback_queue);
 }
 extern "C" {
-    #[doc = " \\brief Returns the callback queue associated with this"]
-    #[doc = " NodeHandle.  If none has been explicitly set, returns the global"]
-    #[doc = " queue."]
-    pub fn node_handle_getCallbackQueue(nh: *mut node_handle) -> *mut callback_queue;
+  #[doc = " \\brief Returns the callback queue associated with this"]
+  #[doc = " NodeHandle.  If none has been explicitly set, returns the global"]
+  #[doc = " queue."]
+  pub fn node_handle_getCallbackQueue(nh: *mut node_handle) -> *mut callback_queue;
 }
 extern "C" {
-    #[doc = " \\brief Returns the namespace associated with this NodeHandle"]
-    pub fn node_handle_getNamespace(nh: *mut node_handle) -> *const ::std::os::raw::c_char;
+  #[doc = " \\brief Returns the namespace associated with this NodeHandle"]
+  pub fn node_handle_getNamespace(nh: *mut node_handle) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    #[doc = " \\brief Returns the namespace associated with this NodeHandle as"]
-    #[doc = " it was passed in (before it was resolved)"]
-    pub fn node_handle_getUnresolvedNamespace(
-        nh: *mut node_handle,
-    ) -> *const ::std::os::raw::c_char;
+  #[doc = " \\brief Returns the namespace associated with this NodeHandle as"]
+  #[doc = " it was passed in (before it was resolved)"]
+  pub fn node_handle_getUnresolvedNamespace(nh: *mut node_handle) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    #[doc = " \\brief Resolves a name into a fully-qualified name"]
-    #[doc = ""]
-    #[doc = " Resolves a name into a fully qualified name, eg. \"blah\" =>"]
-    #[doc = " \"/namespace/blah\". By default also applies any matching"]
-    #[doc = " name-remapping rules (which were usually supplied on the command"]
-    #[doc = " line at startup) to the given name, returning the resulting"]
-    #[doc = " remapped name."]
-    #[doc = ""]
-    #[doc = " \\param name Name to remap"]
-    #[doc = ""]
-    #[doc = " \\param remap Whether to apply name-remapping rules"]
-    #[doc = ""]
-    #[doc = " \\return Resolved name."]
-    #[doc = ""]
-    #[doc = " \\throws InvalidNameException If the name begins with a tilde, or is an otherwise invalid graph resource name"]
-    pub fn node_handle_resolveName(
-        nh: *mut node_handle,
-        name: *const ::std::os::raw::c_char,
-        remap: bool,
-    ) -> *const ::std::os::raw::c_char;
+  #[doc = " \\brief Resolves a name into a fully-qualified name"]
+  #[doc = ""]
+  #[doc = " Resolves a name into a fully qualified name, eg. \"blah\" =>"]
+  #[doc = " \"/namespace/blah\". By default also applies any matching"]
+  #[doc = " name-remapping rules (which were usually supplied on the command"]
+  #[doc = " line at startup) to the given name, returning the resulting"]
+  #[doc = " remapped name."]
+  #[doc = ""]
+  #[doc = " \\param name Name to remap"]
+  #[doc = ""]
+  #[doc = " \\param remap Whether to apply name-remapping rules"]
+  #[doc = ""]
+  #[doc = " \\return Resolved name."]
+  #[doc = ""]
+  #[doc = " \\throws InvalidNameException If the name begins with a tilde, or is an otherwise invalid graph resource name"]
+  pub fn node_handle_resolveName(
+    nh: *mut node_handle,
+    name: *const ::std::os::raw::c_char,
+    remap: bool,
+  ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    #[doc = " \\brief Subscribe to a topic, version for bare function"]
-    #[doc = ""]
-    #[doc = " This method connects to the master to register interest in a given"]
-    #[doc = " topic.  The node will automatically be connected with publishers on"]
-    #[doc = " this topic.  On each message receipt, fp is invoked and passed a shared pointer"]
-    #[doc = " to the message received.  This message should \\b not be changed in place, as it"]
-    #[doc = " is shared with any other subscriptions to this topic."]
-    #[doc = ""]
-    #[doc = " This version of subscribe is a convenience function for using bare functions, and can be used like so:"]
-    #[doc = "\\verbatim"]
-    #[doc = "void callback(const std_msgs::Empty::ConstPtr& message)"]
-    #[doc = "{"]
-    #[doc = "}"]
-    #[doc = ""]
-    #[doc = "ros::Subscriber sub = handle.subscribe(\"my_topic\", 1, callback);"]
-    #[doc = "\\endverbatim"]
-    #[doc = ""]
-    #[doc = " \\param M [template] M here is the callback parameter type (e.g. const boost::shared_ptr<M const>& or const M&), \\b not the message type, and should almost always be deduced"]
-    #[doc = " \\param topic Topic to subscribe to"]
-    #[doc = " \\param queue_size Number of incoming messages to queue up for"]
-    #[doc = " processing (messages in excess of this queue capacity will be"]
-    #[doc = " discarded)."]
-    #[doc = " \\param fp Function pointer to call when a message has arrived"]
-    #[doc = " \\param transport_hints a TransportHints structure which defines various transport-related options"]
-    #[doc = " \\return On success, a Subscriber that, when all copies of it go out of scope, will unsubscribe from this topic."]
-    #[doc = " On failure, an empty Subscriber which can be checked with:"]
-    #[doc = "\\verbatim"]
-    #[doc = "void callback(const std_msgs::Empty::ConstPtr& message){...}"]
-    #[doc = "ros::NodeHandle nodeHandle;"]
-    #[doc = "ros::Subscriber sub = nodeHandle.subscribe(\"my_topic\", 1, callback);"]
-    #[doc = "if (sub)  // Enter if subscriber is valid"]
-    #[doc = "{"]
-    #[doc = "..."]
-    #[doc = "}"]
-    #[doc = "\\endverbatim"]
-    #[doc = "  \\throws InvalidNameException If the topic name begins with a tilde, or is an otherwise invalid graph resource name"]
-    #[doc = "  \\throws ConflictingSubscriptionException If this node is already subscribed to the same topic with a different datatype"]
-    pub fn node_handle_subscribe(
-        nh: *mut node_handle,
-        topic: *const ::std::os::raw::c_char,
-        type_: *const ::std::os::raw::c_char,
-        queue_size: u32,
-        phantom_data: *const ::std::os::raw::c_void,
-        cb: callback,
-    ) -> *mut subscriber;
+  #[doc = " \\brief Subscribe to a topic, version for bare function"]
+  #[doc = ""]
+  #[doc = " This method connects to the master to register interest in a given"]
+  #[doc = " topic.  The node will automatically be connected with publishers on"]
+  #[doc = " this topic.  On each message receipt, fp is invoked and passed a shared pointer"]
+  #[doc = " to the message received.  This message should \\b not be changed in place, as it"]
+  #[doc = " is shared with any other subscriptions to this topic."]
+  #[doc = ""]
+  #[doc = " This version of subscribe is a convenience function for using bare functions, and can be used like so:"]
+  #[doc = "\\verbatim"]
+  #[doc = "void callback(const std_msgs::Empty::ConstPtr& message)"]
+  #[doc = "{"]
+  #[doc = "}"]
+  #[doc = ""]
+  #[doc = "ros::Subscriber sub = handle.subscribe(\"my_topic\", 1, callback);"]
+  #[doc = "\\endverbatim"]
+  #[doc = ""]
+  #[doc = " \\param M [template] M here is the callback parameter type (e.g. const boost::shared_ptr<M const>& or const M&), \\b not the message type, and should almost always be deduced"]
+  #[doc = " \\param topic Topic to subscribe to"]
+  #[doc = " \\param queue_size Number of incoming messages to queue up for"]
+  #[doc = " processing (messages in excess of this queue capacity will be"]
+  #[doc = " discarded)."]
+  #[doc = " \\param fp Function pointer to call when a message has arrived"]
+  #[doc = " \\param transport_hints a TransportHints structure which defines various transport-related options"]
+  #[doc = " \\return On success, a Subscriber that, when all copies of it go out of scope, will unsubscribe from this topic."]
+  #[doc = " On failure, an empty Subscriber which can be checked with:"]
+  #[doc = "\\verbatim"]
+  #[doc = "void callback(const std_msgs::Empty::ConstPtr& message){...}"]
+  #[doc = "ros::NodeHandle nodeHandle;"]
+  #[doc = "ros::Subscriber sub = nodeHandle.subscribe(\"my_topic\", 1, callback);"]
+  #[doc = "if (sub)  // Enter if subscriber is valid"]
+  #[doc = "{"]
+  #[doc = "..."]
+  #[doc = "}"]
+  #[doc = "\\endverbatim"]
+  #[doc = "  \\throws InvalidNameException If the topic name begins with a tilde, or is an otherwise invalid graph resource name"]
+  #[doc = "  \\throws ConflictingSubscriptionException If this node is already subscribed to the same topic with a different datatype"]
+  pub fn node_handle_subscribe(
+    nh: *mut node_handle,
+    topic: *const ::std::os::raw::c_char,
+    type_: *const ::std::os::raw::c_char,
+    queue_size: u32,
+    phantom_data: *const ::std::os::raw::c_void,
+    cb: callback,
+  ) -> *mut subscriber;
 }
 extern "C" {
-    #[doc = " \\brief Advertise a topic, simple version"]
-    #[doc = ""]
-    #[doc = " This call connects to the master to publicize that the node will be"]
-    #[doc = " publishing messages on the given topic.  This method returns a Publisher that allows you to"]
-    #[doc = " publish a message on this topic."]
-    #[doc = ""]
-    #[doc = " This version of advertise is a templated convenience function, and can be used like so"]
-    #[doc = ""]
-    #[doc = "   ros::Publisher pub = handle.advertise<std_msgs::Empty>(\"my_topic\", 1);"]
-    #[doc = ""]
-    #[doc = " \\param topic Topic to advertise on"]
-    #[doc = ""]
-    #[doc = " \\param queue_size Maximum number of outgoing messages to be"]
-    #[doc = " queued for delivery to subscribers"]
-    #[doc = ""]
-    #[doc = " \\param latch (optional) If true, the last message published on"]
-    #[doc = " this topic will be saved and sent to new subscribers when they"]
-    #[doc = " connect"]
-    #[doc = ""]
-    #[doc = " \\return On success, a Publisher that, when it goes out of scope,"]
-    #[doc = " will automatically release a reference on this advertisement.  On"]
-    #[doc = " failure, an empty Publisher."]
-    #[doc = ""]
-    #[doc = " \\throws InvalidNameException If the topic name begins with a"]
-    #[doc = " tilde, or is an otherwise invalid graph resource name, or is an"]
-    #[doc = " otherwise invalid graph resource name"]
-    pub fn node_handle_advertise(
-        nh: *mut node_handle,
-        topic: *const ::std::os::raw::c_char,
-        queue_size: u32,
-        latch: bool,
-    ) -> *mut publisher;
+  #[doc = " \\brief Advertise a topic, simple version"]
+  #[doc = ""]
+  #[doc = " This call connects to the master to publicize that the node will be"]
+  #[doc = " publishing messages on the given topic.  This method returns a Publisher that allows you to"]
+  #[doc = " publish a message on this topic."]
+  #[doc = ""]
+  #[doc = " This version of advertise is a templated convenience function, and can be used like so"]
+  #[doc = ""]
+  #[doc = "   ros::Publisher pub = handle.advertise<std_msgs::Empty>(\"my_topic\", 1);"]
+  #[doc = ""]
+  #[doc = " \\param topic Topic to advertise on"]
+  #[doc = ""]
+  #[doc = " \\param queue_size Maximum number of outgoing messages to be"]
+  #[doc = " queued for delivery to subscribers"]
+  #[doc = ""]
+  #[doc = " \\param latch (optional) If true, the last message published on"]
+  #[doc = " this topic will be saved and sent to new subscribers when they"]
+  #[doc = " connect"]
+  #[doc = ""]
+  #[doc = " \\return On success, a Publisher that, when it goes out of scope,"]
+  #[doc = " will automatically release a reference on this advertisement.  On"]
+  #[doc = " failure, an empty Publisher."]
+  #[doc = ""]
+  #[doc = " \\throws InvalidNameException If the topic name begins with a"]
+  #[doc = " tilde, or is an otherwise invalid graph resource name, or is an"]
+  #[doc = " otherwise invalid graph resource name"]
+  pub fn node_handle_advertise(
+    nh: *mut node_handle,
+    topic: *const ::std::os::raw::c_char,
+    queue_size: u32,
+    latch: bool,
+  ) -> *mut publisher;
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct single_threaded_spinner {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 extern "C" {
-    pub fn single_threaded_spinner_create() -> *mut single_threaded_spinner;
+  pub fn single_threaded_spinner_create() -> *mut single_threaded_spinner;
 }
 extern "C" {
-    pub fn single_threaded_spinner_destroy(sp: *mut single_threaded_spinner);
+  pub fn single_threaded_spinner_destroy(sp: *mut single_threaded_spinner);
 }
 extern "C" {
-    pub fn single_threaded_spinner_spin(sp: *mut single_threaded_spinner, cq: *mut callback_queue);
+  pub fn single_threaded_spinner_spin(sp: *mut single_threaded_spinner, cq: *mut callback_queue);
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct multi_threaded_spinner {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 extern "C" {
-    #[doc = " \\param thread_count Number of threads to use for calling callbacks.   0 will"]
-    #[doc = " automatically use however many hardware threads exist on your system."]
-    pub fn multi_threaded_spinner_create(thread_count: u32) -> *mut multi_threaded_spinner;
+  #[doc = " \\param thread_count Number of threads to use for calling callbacks.   0 will"]
+  #[doc = " automatically use however many hardware threads exist on your system."]
+  pub fn multi_threaded_spinner_create(thread_count: u32) -> *mut multi_threaded_spinner;
 }
 extern "C" {
-    pub fn multi_threaded_spinner_destroy(sp: *mut multi_threaded_spinner);
+  pub fn multi_threaded_spinner_destroy(sp: *mut multi_threaded_spinner);
 }
 extern "C" {
-    pub fn multi_threaded_spinner_spin(sp: *mut multi_threaded_spinner, cq: *mut callback_queue);
+  pub fn multi_threaded_spinner_spin(sp: *mut multi_threaded_spinner, cq: *mut callback_queue);
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct async_spinner {
-    _unused: [u8; 0],
+  _unused: [u8; 0],
 }
 extern "C" {
-    pub fn async_spinner_create(thread_count: u32) -> *mut async_spinner;
+  pub fn async_spinner_create(thread_count: u32) -> *mut async_spinner;
 }
 extern "C" {
-    pub fn async_spinner_create_with_queue(
-        thread_count: u32,
-        cq: *mut callback_queue,
-    ) -> *mut async_spinner;
+  pub fn async_spinner_create_with_queue(
+    thread_count: u32,
+    cq: *mut callback_queue,
+  ) -> *mut async_spinner;
 }
 extern "C" {
-    pub fn async_spinner_destroy(sp: *mut async_spinner);
+  pub fn async_spinner_destroy(sp: *mut async_spinner);
 }
 extern "C" {
-    #[doc = " \\brief Start this spinner spinning asynchronously"]
-    pub fn async_spinner_start(sp: *mut async_spinner);
+  #[doc = " \\brief Start this spinner spinning asynchronously"]
+  pub fn async_spinner_start(sp: *mut async_spinner);
 }
 extern "C" {
-    #[doc = " \\brief Stop this spinner from running"]
-    pub fn async_spinner_stop(sp: *mut async_spinner);
+  #[doc = " \\brief Stop this spinner from running"]
+  pub fn async_spinner_stop(sp: *mut async_spinner);
 }
