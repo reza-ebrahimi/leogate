@@ -71,8 +71,8 @@ impl RosManager {
   }
 
   pub async fn start_spin() {
-    if Ros::is_initialized() && Ros::is_started() {
-      Ros::spin_once();
+    if Init::is_initialized() && Init::is_started() {
+      Init::spin_once();
     }
   }
 
@@ -87,21 +87,21 @@ impl RosManager {
 
     match cmd.unwrap() {
       Message::InitializeRos => {
-        if !Ros::is_initialized() {
-          Ros::init(&String::from("leogated"));
+        if !Init::is_initialized() {
+          Init::init(&String::from("leogated"));
         }
         println!(
-          "[RosManager::process_messages] Message::InitializeRos => Ros::is_initialized(): {}",
-          Ros::is_initialized()
+          "[RosManager::process_messages] Message::InitializeRos => Init::is_initialized(): {}",
+          Init::is_initialized()
         );
       }
       Message::ShutdownRos => {
-        if Ros::is_initialized() && Ros::is_started() {
-          Ros::shutdown();
+        if Init::is_initialized() && Init::is_started() {
+          Init::shutdown();
         }
         println!(
-          "[RosManager::process_messages] Message::ShutdownRos => Ros::is_shuttingdown(): {}",
-          Ros::is_shuttingdown()
+          "[RosManager::process_messages] Message::ShutdownRos => Init::is_shuttingdown(): {}",
+          Init::is_shuttingdown()
         );
       }
       Message::CreateNode { node } => {
