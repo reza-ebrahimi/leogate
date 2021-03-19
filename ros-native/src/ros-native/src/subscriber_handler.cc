@@ -162,30 +162,24 @@ class callback_impl {
         {"is_dense", static_cast<bool>(msg->is_dense)}
     }.dump(2);
 
-    //auto start = std::chrono::steady_clock::now();
-
     json_payload payload = json_payload{
         .payload =  json_str.c_str(),
         .size =  json_str.length()
     };
 
-    unsigned char abc[sizeof(size_t) + json_str.length() + msg->data.size()];
-    std::memcpy(&abc[0], &payload.size, sizeof(size_t));
-    std::memcpy(&abc[0] + sizeof(size_t), json_str.c_str(),
+    unsigned char buffer[sizeof(size_t) + json_str.length() + msg->data.size()];
+    std::memcpy(&buffer[0], &payload.size, sizeof(size_t));
+    std::memcpy(&buffer[0] + sizeof(size_t), json_str.c_str(),
                 json_str.length() * sizeof(uint8_t));
-    std::memcpy(&abc[0] + sizeof(size_t) + (json_str.length() * sizeof(uint8_t)),
+    std::memcpy(&buffer[0] + sizeof(size_t) + (json_str.length() * sizeof(uint8_t)),
                 msg->data.data(), msg->data.size() * sizeof(uint8_t));
 
     binary_payload bin_payload = binary_payload{
-        .payload =  &abc[0],
+        .payload =  &buffer[0],
         .size =  sizeof(json_str.length()) + json_str.length() + msg->data.size()
     };
 
     call_it(&payload, &bin_payload);
-
-    //auto end = std::chrono::steady_clock::now();
-    //auto diff = end - start;
-    //std::cout << std::chrono::duration<double, std::milli>(diff).count() << " ms" << std::endl;
   }
 };
 
