@@ -35,11 +35,9 @@ const char *node_handle_resolveName(node_handle *nh, const char *name, bool rema
 }
 
 subscriber *node_handle_subscribe(node_handle *nh, const char *topic, const char *type, uint32_t queue_size, const void *phantom_data, callback cb) {
-  ros::Subscriber sub;
-
-  subscriber_handler::instance().subscribe(nh, &sub, std::string(topic), std::string(type), queue_size, phantom_data, cb);
-
-  return reinterpret_cast<subscriber *>(new ros::Subscriber(std::move(sub)));
+  ros::Subscriber *sub = new ros::Subscriber(
+      std::move(subscriber_handler::instance().subscribe(nh, std::string(topic), std::string(type), queue_size, phantom_data, cb)));
+  return reinterpret_cast<subscriber *>(sub);
 }
 
 publisher *node_handle_advertise(node_handle *nh, const char *topic, uint32_t queue_size, bool latch) {

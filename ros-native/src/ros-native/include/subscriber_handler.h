@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#include <ros/ros.h>
+
 #include "callback.h"
 
 class callback_impl;
@@ -16,21 +18,13 @@ class subscriber_handler {
   subscriber_handler(subscriber_handler const &) = delete;
   void operator=(subscriber_handler const &) = delete;
 
-  void subscribe(
+  ros::Subscriber subscribe(
       void *nh,
-      void *subscriber,
       const std::string &topic,
       const std::string &type,
       uint32_t queue_size,
       const void *phantom_data,
       const callback &cb);
-
-  void create_subscriber(
-      void *nh,
-      void *subscriber,
-      const std::string &topic,
-      const std::string &type,
-      uint32_t queue_size);
 
  private:
   subscriber_handler();

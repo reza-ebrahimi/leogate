@@ -1,7 +1,5 @@
 #include "subscriber_handler.h"
 
-#include <ros/ros.h>
-
 #include <std_msgs/Int8.h>
 #include <std_msgs/Int16.h>
 #include <std_msgs/Int32.h>
@@ -203,35 +201,32 @@ subscriber_handler &subscriber_handler::instance() {
   return _instance;
 }
 
-void subscriber_handler::subscribe(void *nh, void *subscriber, const std::string &topic,
-                                   const std::string &type, uint32_t queue_size, const void *phantom_data,
-                                   const callback &cb) {
+ros::Subscriber subscriber_handler::subscribe(void *nh, const std::string &topic, const std::string &type,
+                                              uint32_t queue_size, const void *phantom_data, const callback &cb) {
   callback_map[topic] = std::move(std::make_unique<callback_impl>(phantom_data, cb));
-  create_subscriber(nh, subscriber, topic, type, queue_size);
-}
-
-void subscriber_handler::create_subscriber(void *nh, void *subscriber, const std::string &topic, const std::string &type, uint32_t queue_size) {
   callback_impl *cb_obj = callback_map[topic].get();
 
   ros::NodeHandle *nHandle = reinterpret_cast<ros::NodeHandle *>(nh);
-  ros::Subscriber *sub = reinterpret_cast<ros::Subscriber *>(subscriber);
+  ros::Subscriber sub;
 
   // std_msgs
   if (type == "std_msgs/Int8") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int8>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
+    sub = std::move(nHandle->subscribe<std_msgs::Int8>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
   if (type == "std_msgs/Int16") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int16>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
+    sub = std::move(nHandle->subscribe<std_msgs::Int16>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
   if (type == "std_msgs/Int32") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int32>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
+    sub = std::move(nHandle->subscribe<std_msgs::Int32>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
   if (type == "std_msgs/Int64") {
-    *sub = std::move(nHandle->subscribe<std_msgs::Int64>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
+    sub = std::move(nHandle->subscribe<std_msgs::Int64>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
 
   // sensor_msgs
   if (type == "sensor_msgs/PointCloud2") {
-    *sub = std::move(nHandle->subscribe<sensor_msgs::PointCloud2>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
+    sub = std::move(nHandle->subscribe<sensor_msgs::PointCloud2>(std::string(topic), queue_size, &callback_impl::callback_handler, cb_obj));
   }
+
+  return sub;
 }
