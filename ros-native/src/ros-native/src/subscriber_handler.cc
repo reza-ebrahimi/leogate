@@ -198,6 +198,11 @@ subscriber_handler::~subscriber_handler() {
   callback_map.clear();
 }
 
+subscriber_handler &subscriber_handler::instance() {
+  static subscriber_handler _instance;
+  return _instance;
+}
+
 void subscriber_handler::subscribe(void *nh, void *subscriber, const std::string &topic,
                                    const std::string &type, uint32_t queue_size, const void *phantom_data,
                                    const callback &cb) {

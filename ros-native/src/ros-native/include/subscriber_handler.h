@@ -11,8 +11,10 @@ class callback_impl;
 
 class subscriber_handler {
  public:
-  subscriber_handler();
-  ~subscriber_handler();
+  static subscriber_handler &instance();
+
+  subscriber_handler(subscriber_handler const &) = delete;
+  void operator=(subscriber_handler const &) = delete;
 
   void subscribe(
       void *nh,
@@ -31,6 +33,9 @@ class subscriber_handler {
       uint32_t queue_size);
 
  private:
+  subscriber_handler();
+  ~subscriber_handler();
+
   std::map<std::string, std::unique_ptr<callback_impl>> callback_map;
 };
 
