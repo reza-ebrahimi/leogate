@@ -18,7 +18,7 @@ typedef struct _json_payload {
 } json_payload;
 
 typedef void (*callback)(
-    const void *phantom_data,
+    const char *topic,
     const json_payload *payload,
     const binary_payload *bin_payload);
 

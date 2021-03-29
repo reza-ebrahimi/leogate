@@ -23,7 +23,6 @@ class subscriber_handler {
       const std::string &topic,
       const std::string &type,
       uint32_t queue_size,
-      const void *phantom_data,
       const callback &cb);
 
  private:

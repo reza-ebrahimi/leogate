@@ -105,7 +105,7 @@ if (sub)  // Enter if subscriber is valid
  *  \throws InvalidNameException If the topic name begins with a tilde, or is an otherwise invalid graph resource name
  *  \throws ConflictingSubscriptionException If this node is already subscribed to the same topic with a different datatype
  */
-subscriber *node_handle_subscribe(node_handle *nh, const char *topic, const char *type, uint32_t queue_size, const void *phantom_data, callback cb);
+subscriber *node_handle_subscribe(node_handle *nh, const char *topic, const char *type, uint32_t queue_size, callback cb);
 
 /**
  * \brief Advertise a topic, simple version

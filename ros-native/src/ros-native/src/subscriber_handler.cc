@@ -70,13 +70,13 @@ std::string base64_encode(BYTE const *buf, unsigned int bufLen) {
 
 class callback_impl {
   callback p_cb;
-  const void *phantom_data;
+  std::string topic;
 
  public:
-  callback_impl(const void *data, const callback &cb) : p_cb(cb), phantom_data(data) {}
+  callback_impl(const std::string &topic, const callback &cb) : p_cb(cb), topic(topic) {}
 
   __always_inline void call_it(json_payload *payload, binary_payload *bin_payload = nullptr) const {
-    p_cb(phantom_data, payload, bin_payload);
+    p_cb(topic.c_str(), payload, bin_payload);
   }
 
   void callback_handler(const std_msgs::Int8::ConstPtr &msg) {
@@ -160,7 +160,7 @@ class callback_impl {
         {"row_step", msg->row_step},
         //{"data", encodedData},
         {"is_dense", static_cast<bool>(msg->is_dense)}
-    }.dump(2);
+    }.dump();
 
     json_payload payload = json_payload{
         .payload =  json_str.c_str(),
@@ -196,8 +196,8 @@ subscriber_handler &subscriber_handler::instance() {
 }
 
 ros::Subscriber subscriber_handler::subscribe(void *nh, const std::string &topic, const std::string &type,
-                                              uint32_t queue_size, const void *phantom_data, const callback &cb) {
-  callback_map[topic] = std::move(std::make_unique<callback_impl>(phantom_data, cb));
+                                              uint32_t queue_size, const callback &cb) {
+  callback_map[topic] = std::move(std::make_unique<callback_impl>(topic, cb));
   callback_impl *cb_obj = callback_map[topic].get();
 
   ros::NodeHandle *nHandle = reinterpret_cast<ros::NodeHandle *>(nh);
