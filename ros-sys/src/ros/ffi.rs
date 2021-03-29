@@ -425,7 +425,7 @@ fn bindgen_test_layout__json_payload() {
 pub type json_payload = _json_payload;
 pub type callback = ::std::option::Option<
   unsafe extern "C" fn(
-    phantom_data: *const ::std::os::raw::c_void,
+    topic: *const ::std::os::raw::c_char,
     payload: *const json_payload,
     bin_payload: *const binary_payload,
   ),
@@ -932,7 +932,6 @@ extern "C" {
     topic: *const ::std::os::raw::c_char,
     type_: *const ::std::os::raw::c_char,
     queue_size: u32,
-    phantom_data: *const ::std::os::raw::c_void,
     cb: callback,
   ) -> *mut subscriber;
 }
