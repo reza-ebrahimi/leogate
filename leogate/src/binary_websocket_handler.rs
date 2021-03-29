@@ -8,10 +8,9 @@ use futures::lock::Mutex;
 use actix::prelude::*;
 use actix_web_actors::ws;
 
-use ros_manager::RosManager;
+use super::client_request::*;
 
-use super::client_message::ClientMessage;
-use super::pointcloud2_stream::PointClout2Stream;
+use ros_sys::RosManager;
 
 /// How often heartbeat pings are sent
 const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
@@ -40,24 +39,32 @@ impl BinaryWebsocketHandler {
     });
   }
 
-  fn process_json_message(&self, msg: &String, ctx: &mut ws::WebsocketContext<Self>) {
-    let client: ClientMessage = serde_json::from_str::<ClientMessage>(msg).unwrap();
-    match client.request.as_str() {
-      "STREAM_READ" => {
-        match client.body.kind.as_str() {
-          "POINTCLOUD2" => {
-            PointClout2Stream::new(self.ros.clone(), client.body.topic, client.body.msg_type)
+  fn process_json_message(&self, msg: &str, ctx: &mut ws::WebsocketContext<Self>) {
+    let client: ClientRequest = serde_json::from_str::<ClientRequest>(msg).unwrap();
+    match client.request {
+      RequestResource::StreamRead(_) => {
+        match client.body.kind {
+          RequestKind::PointCloud2(_) => {
+            let stream = {
+              let mut ros = futures::executor::block_on(async { self.ros.lock().await });
+              ros.node_handle().subscribe(
+                client.body.topic.as_str(),
+                client.body.msg_type.as_str(),
+                1024,
+              )
+            };
+            stream
               .into_actor(self)
               .map(|response, _act, ctx| {
-                ctx.binary(response.binary.unwrap());
+                if !response.binary.is_none() {
+                  ctx.binary(response.binary.unwrap());
+                }
               })
               .finish()
               .spawn(ctx);
           }
-          _ => {}
         };
       }
-      _ => {}
     }
   }
 }
@@ -81,7 +88,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for BinaryWebsocketHa
         self.last_heartbeat = Instant::now();
       }
       Ok(ws::Message::Text(text)) => {
-        self.process_json_message(&text, ctx);
+        self.process_json_message(text.as_str(), ctx);
       }
       Ok(ws::Message::Binary(bin)) => ctx.binary(bin),
       Ok(ws::Message::Close(reason)) => {
