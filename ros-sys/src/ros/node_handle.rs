@@ -35,12 +35,12 @@ impl NodeHandle {
   }
 
   pub fn subscribe(&mut self, topic: &str, msg_type: &str, queue_size: u32) -> ChannelStream {
-    let mut gaurds = futures::executor::block_on(async {
+    let mut guards = futures::executor::block_on(async {
       (self.sub_rc.lock().await, CHANNEL_MAMANGER.lock().await)
     });
 
-    if gaurds.0.is_exists(topic) {
-      return gaurds.1.channel(topic).subscribe();
+    if guards.0.is_exists(topic) {
+      return guards.1.channel(topic).subscribe();
     }
 
     let mut subscriber = Box::new(Subscriber::new(topic, msg_type));
@@ -59,8 +59,8 @@ impl NodeHandle {
       subscriber.set_handle(ffi_subscriber);
     };
 
-    gaurds.0.add_subscriber(topic, subscriber);
-    gaurds.1.channel(topic).subscribe()
+    guards.0.add_subscriber(topic, subscriber);
+    guards.1.channel(topic).subscribe()
   }
 }
 
