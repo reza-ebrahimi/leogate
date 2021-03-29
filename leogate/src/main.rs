@@ -2,7 +2,7 @@ use futures::lock::Mutex;
 use std::sync::Arc;
 
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use async_graphql::*;
+use async_graphql::Schema;
 use async_graphql_actix_web::{Request, Response, WSSubscription};
 
 use actix_web::{
@@ -10,12 +10,11 @@ use actix_web::{
 };
 use actix_web_actors::ws;
 
-use ros_manager::RosManager;
 use ros_schema::*;
+use ros_sys::RosManager;
 
 mod binary_websocket_handler;
-mod client_message;
-mod pointcloud2_stream;
+mod client_request;
 
 use binary_websocket_handler::BinaryWebsocketHandler;
 
@@ -55,11 +54,8 @@ async fn playground_handler() -> Result<HttpResponse> {
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-  let ros = Arc::new(Mutex::new(RosManager::new()));
-  {
-    let mut gaurd = ros.lock().await;
-    gaurd.init().create_node("leogated").spin().await;
-  }
+  let ros = Arc::new(Mutex::new(ros_sys::RosManager::new()));
+  ros.lock().await.create_node("leogated");
 
   let schema = Schema::build(
     RootQuery::default(),
