@@ -1,81 +1,66 @@
+use std::collections::HashMap;
 use std::ffi::*;
 use std::os::raw::*;
+use std::sync::Arc;
 
-use super::callback::ChannelPayload;
+use futures::lock::Mutex;
+
+use super::callback::*;
 use super::ffi;
-use super::subscriber::Subscriber;
-
-unsafe extern "C" fn __callback_fn(
-  phantom_data: *const c_void,
-  json: *const ffi::_json_payload,
-  binary: *const ffi::_binary_payload,
-) {
-  let payload = if binary.is_null() {
-    ChannelPayload {
-      json: unsafe {
-        CStr::from_ptr((*json).payload)
-          .to_str()
-          .unwrap()
-          .to_string()
-      },
-      binary: None,
-    }
-  } else {
-    let binary_data = unsafe { std::slice::from_raw_parts((*binary).payload, (*binary).size) };
-
-    ChannelPayload {
-      json: "".to_string(),
-      binary: Some(binary_data.to_vec()),
-    }
-  };
-
-  let subscriber = phantom_data as *const Subscriber;
-  (*subscriber).__call(payload);
-}
+use super::subscriber::*;
 
 pub struct NodeHandle {
   node_name: String,
+  sub_rc: Arc<Mutex<SubscriberRc>>,
   __handle: *mut ffi::node_handle,
 }
 
 impl NodeHandle {
-  pub fn new(name: String) -> NodeHandle {
+  pub fn new(name: &str) -> NodeHandle {
     unsafe {
-      let ns = CString::new(name.as_str()).expect("CString::new failed");
+      let ns = CString::new(name).expect("CString::new failed");
       let nh = ffi::node_handle_create(ns.as_ptr());
 
+      let rc = Arc::new(Mutex::new(SubscriberRc::new()));
+      futures::executor::block_on(async {
+        CHANNEL_MAMANGER.lock().await.set_rc(rc.clone());
+      });
+
       NodeHandle {
-        node_name: name.clone(),
+        node_name: String::from(name),
+        sub_rc: rc,
         __handle: nh,
       }
     }
   }
 
-  pub fn subscribe(
-    &mut self,
-    topic: &String,
-    topic_type: &String,
-    queue_size: u32,
-  ) -> Box<Subscriber> {
+  pub fn subscribe(&mut self, topic: &str, msg_type: &str, queue_size: u32) -> ChannelStream {
+    let mut gaurds = futures::executor::block_on(async {
+      (self.sub_rc.lock().await, CHANNEL_MAMANGER.lock().await)
+    });
+
+    if gaurds.0.is_exists(topic) {
+      return gaurds.1.channel(topic).subscribe();
+    }
+
+    let mut subscriber = Box::new(Subscriber::new(topic, msg_type));
+
     unsafe {
-      let _topic = CString::new(topic.as_str()).expect("CString::new failed");
-      let _topic_type = CString::new(topic_type.as_str()).expect("CString::new failed");
-
-      let mut subscriber = Box::new(Subscriber::new(topic, topic_type));
-      let subscriber_ptr: *const c_void = subscriber.as_ref() as *const _ as *const c_void;
-
+      let _topic = CString::new(topic).expect("CString::new failed");
+      let _msg_type = CString::new(msg_type).expect("CString::new failed");
       let ffi_subscriber: *mut ffi::subscriber = ffi::node_handle_subscribe(
         self.__handle,
         _topic.as_ptr(),
-        _topic_type.as_ptr(),
+        _msg_type.as_ptr(),
         queue_size,
-        subscriber_ptr,
         Some(__callback_fn),
       );
 
       subscriber.set_handle(ffi_subscriber);
-      subscriber
-    }
+    };
+
+    gaurds.0.add_subscriber(topic, subscriber);
+    gaurds.1.channel(topic).subscribe()
   }
 }
 
@@ -90,4 +75,3 @@ impl Drop for NodeHandle {
 }
 
 unsafe impl Send for NodeHandle {}
-unsafe impl Sync for NodeHandle {}
