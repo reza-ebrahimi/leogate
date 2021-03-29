@@ -9,5 +9,5 @@ async-graphql = "2.5.0"
 futures = "0.3"
 serde = "1.0.122"
 serde_json = { version = "1.0.61", features = ["raw_value"] }
-ros_manager = { path = "../ros_manager"}
 ros_msgs = { path = "../ros_msgs"}
+ros-sys = { path = "../../../ros-sys" }
