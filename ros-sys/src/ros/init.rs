@@ -1,10 +1,12 @@
 use super::ffi;
+use std::ffi::CStr;
 
 pub fn disable_all_thread_signals() {
   unsafe {
     ffi::ros_disableAllSignalsInThisThread();
   }
 }
+
 pub struct Init;
 
 impl Init {
@@ -68,10 +70,9 @@ impl Init {
 
   pub fn get_default_master_uri() -> String {
     unsafe {
-      let mut len: i32 = 0;
-      let slice = ffi::ros_getDefaultMasterURI(&mut len);
-      let slice = std::slice::from_raw_parts(slice, len as usize);
-      String::from_utf8(slice.to_owned()).unwrap()
+      CStr::from_ptr(ffi::ros_getDefaultMasterURI())
+        .to_string_lossy()
+        .into_owned()
     }
   }
 
