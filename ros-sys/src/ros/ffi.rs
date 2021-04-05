@@ -716,17 +716,17 @@ extern "C" {
     argc: ::std::os::raw::c_int,
     argv: *const *const ::std::os::raw::c_char,
     arg: *const ::std::os::raw::c_char,
-  ) -> *const ::std::os::raw::c_uchar;
+  ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
   #[doc = " \\brief returns the default master uri that is used if no other is specified, e.g. by defining ROS_MASTER_URI."]
-  pub fn ros_getDefaultMasterURI(len: *mut i32) -> *const ::std::os::raw::c_uchar;
+  pub fn ros_getDefaultMasterURI() -> *const ::std::os::raw::c_char;
 }
 extern "C" {
   #[doc = " @brief Get the hostname where the master runs."]
   #[doc = ""]
   #[doc = " @return The master's hostname, as a string"]
-  pub fn ros_master_getHost(len: *mut i32) -> *const ::std::os::raw::c_uchar;
+  pub fn ros_master_getHost() -> *const ::std::os::raw::c_char;
 }
 extern "C" {
   #[doc = " @brief Get the port where the master runs."]
@@ -736,7 +736,7 @@ extern "C" {
 }
 extern "C" {
   #[doc = " \\brief Get the full URI to the master (eg. http://host:port/)"]
-  pub fn ros_master_getURI(len: *mut i32) -> *const ::std::os::raw::c_uchar;
+  pub fn ros_master_getURI() -> *const ::std::os::raw::c_char;
 }
 extern "C" {
   #[doc = " @brief Check whether the master is up"]
@@ -761,11 +761,11 @@ extern "C" {
   #[doc = " through message.__getDataType() or MessageName::__s_getDataType()."]
   #[doc = ""]
   #[doc = " @return true on success, false otherwise (topics not filled in)"]
-  pub fn ros_master_getTopics(topics: *mut *mut ::std::os::raw::c_uchar, len: *mut i32) -> bool;
+  pub fn ros_master_getTopics() -> *const ::std::os::raw::c_char;
 }
 extern "C" {
   #[doc = " \\brief Retreives the currently-known list of nodes from the master"]
-  pub fn ros_master_getNodes(nodes: *mut *mut ::std::os::raw::c_uchar, len: *mut i32) -> bool;
+  pub fn ros_master_getNodes() -> *const ::std::os::raw::c_char;
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1023,4 +1023,66 @@ extern "C" {
 extern "C" {
   #[doc = " \\brief Stop this spinner from running"]
   pub fn async_spinner_stop(sp: *mut async_spinner);
+}
+extern "C" {
+  #[doc = " \\brief Returns the current wall clock time in seconds."]
+  pub fn time_now_toSec() -> f64;
+}
+extern "C" {
+  #[doc = " \\brief Returns the current wall clock time in nanoseconds."]
+  pub fn time_now_toNSec() -> u64;
+}
+extern "C" {
+  pub fn time_init();
+}
+extern "C" {
+  pub fn time_shutdown();
+}
+extern "C" {
+  pub fn time_useSystemTime();
+}
+extern "C" {
+  pub fn time_isSimTime() -> bool;
+}
+extern "C" {
+  pub fn time_isSystemTime() -> bool;
+}
+extern "C" {
+  #[doc = " \\brief Returns whether or not the current time source is valid.  Simulation time is valid if it is non-zero."]
+  pub fn time_isValid() -> bool;
+}
+extern "C" {
+  #[doc = " \\brief Wait for time source to become valid"]
+  pub fn time_waitForValid();
+}
+extern "C" {
+  #[doc = " \\brief Returns the current wall clock time in seconds."]
+  pub fn walltime_now_toSec() -> f64;
+}
+extern "C" {
+  #[doc = " \\brief Returns the current wall clock time in nanoseconds."]
+  pub fn walltime_now_toNSec() -> u64;
+}
+extern "C" {
+  pub fn walltime_isSystemTime() -> bool;
+}
+extern "C" {
+  #[doc = " \\brief Returns the name of the current node."]
+  pub fn this_node_getName() -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+  #[doc = " \\brief Returns the namespace of the current node."]
+  pub fn this_node_getNamespace() -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+  #[doc = " @brief Get the list of topics advertised by this node"]
+  #[doc = ""]
+  #[doc = " @param[out] topics The advertised topics"]
+  pub fn this_node_getAdvertisedTopics() -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+  #[doc = " @brief Get the list of topics subscribed to by this node"]
+  #[doc = ""]
+  #[doc = " @param[out] The subscribed topics"]
+  pub fn this_node_getSubscribedTopics() -> *const ::std::os::raw::c_char;
 }
