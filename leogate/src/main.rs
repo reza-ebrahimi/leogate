@@ -1,14 +1,14 @@
+use actix_web::{
+  guard, http::ContentEncoding, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result,
+};
+use actix_web_actors::ws;
+
 use futures::lock::Mutex;
 use std::sync::Arc;
 
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql::Schema;
 use async_graphql_actix_web::{Request, Response, WSSubscription};
-
-use actix_web::{
-  guard, http::ContentEncoding, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result,
-};
-use actix_web_actors::ws;
 
 use ros_schema::*;
 use ros_sys::RosManager;
@@ -52,7 +52,7 @@ async fn playground_handler() -> Result<HttpResponse> {
   )
 }
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
   let ros = Arc::new(Mutex::new(ros_sys::RosManager::new()));
   ros.lock().await.create_node("leogated");
