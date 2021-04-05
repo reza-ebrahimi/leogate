@@ -139,12 +139,12 @@ ROSCPP_DECL callback_queue *ros_getGlobalCallbackQueue();
  * \param argv the command-line arguments
  * \param arg argument to search for
  */
-ROSCPP_DECL const unsigned char *ros_getROSArg(int argc, const char *const *argv, const char *arg);
+ROSCPP_DECL const char *ros_getROSArg(int argc, const char *const *argv, const char *arg);
 
 /**
  * \brief returns the default master uri that is used if no other is specified, e.g. by defining ROS_MASTER_URI.
  */
-ROSCPP_DECL const unsigned char *ros_getDefaultMasterURI(int32_t *len);
+ROSCPP_DECL const char *ros_getDefaultMasterURI();
 
 #ifdef __cplusplus
 }

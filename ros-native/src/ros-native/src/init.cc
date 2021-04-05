@@ -55,12 +55,10 @@ callback_queue *ros_getGlobalCallbackQueue() {
   return reinterpret_cast<callback_queue *>(ros::getGlobalCallbackQueue());
 }
 
-const unsigned char *ros_getROSArg(int argc, const char *const *argv, const char *arg) {
-  return (const unsigned char *) ros::getROSArg(argc, argv, arg).c_str();
+const char *ros_getROSArg(int argc, const char *const *argv, const char *arg) {
+  return ros::getROSArg(argc, argv, arg).c_str();
 }
 
-const unsigned char *ros_getDefaultMasterURI(int32_t *len) {
-  const std::string &uri = ros::getDefaultMasterURI();
-  *len = uri.length();
-  return (const unsigned char *) uri.c_str();
+const char *ros_getDefaultMasterURI() {
+  return ros::getDefaultMasterURI().c_str();
 }
