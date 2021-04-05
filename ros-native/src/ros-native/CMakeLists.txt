@@ -37,7 +37,8 @@ add_library(${PROJECT_NAME} SHARED
   src/spinner.cc
   src/subscriber.cc
   src/subscriber_handler.cc
-  )
+  src/ros_time.cc
+  src/this_node.cc)
 
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
