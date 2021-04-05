@@ -2,62 +2,61 @@
 #include <ros/ros.h>
 #include <string>
 
-const unsigned char *ros_master_getHost(int32_t *len) {
-  const std::string &host = ros::master::getHost();
-  *len = host.length();
-  return (const unsigned char *) host.c_str();
+#include <json.hpp>
+using json = nlohmann::json;
+
+const char *ros_master_getHost() {
+  return ros::master::getHost().c_str();
 }
 
 uint32_t ros_master_getPort() {
   return ros::master::getPort();
 }
 
-const unsigned char *ros_master_getURI(int32_t *len) {
-  const std::string &uri = ros::master::getURI();
-  *len = uri.length();
-  return (const unsigned char *) uri.c_str();
+const char *ros_master_getURI() {
+  return ros::master::getURI().c_str();
 }
 
 bool ros_master_check() {
   return ros::master::check();
 }
 
-bool ros_master_getTopics(unsigned char **topics, int32_t *len) {
+const char *ros_master_getTopics() {
   ros::master::V_TopicInfo _topics;
-  if (ros::master::getTopics(_topics)) {
-    static std::string n;
-    n.clear();
+  auto json_str = json::array();
 
+  if (ros::master::getTopics(_topics)) {
     for (size_t i = 0; i < _topics.size(); ++i) {
       ros::master::TopicInfo ti = _topics[i];
-      n += ti.name + '\n' + ti.datatype + ',';
+      json_str.push_back(json{
+          {"name", ti.name},
+          {"datatype", ti.datatype}
+      });
     }
-
-    *topics = (unsigned char *) n.c_str();
-    *len = n.length();
-
-    return true;
   }
 
-  topics = NULL;
-  return false;
+  std::string j = json_str.dump();
+  char *buffer = new char[j.length()];
+  std::memcpy(&buffer[0], j.c_str(), j.length());
+  buffer[j.length()] = '\0';
+
+  return &buffer[0];
 }
 
-bool ros_master_getNodes(unsigned char **nodes, int32_t *len) {
+const char *ros_master_getNodes() {
   ros::V_string _nodes;
+  auto json_str = json::array();
+
   if (ros::master::getNodes(_nodes)) {
-    static std::string n;
-    n.clear();
-
     for (size_t i = 0; i < _nodes.size(); ++i) {
-      n += _nodes[i] + '\n';
+      json_str.push_back(_nodes[i]);
     }
-
-    *nodes = (unsigned char *) n.c_str();
-    *len = n.length();
-
-    return true;
   }
 
-  return false;
+  std::string j = json_str.dump();
+  char *buffer = new char[j.length()];
+  std::memcpy(&buffer[0], j.c_str(), j.length());
+  buffer[j.length()] = '\0';
+
+  return &buffer[0];
 }
