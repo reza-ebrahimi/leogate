@@ -15,6 +15,8 @@ extern "C" {
 #include "publisher.h"
 #include "spinner.h"
 #include "subscriber.h"
+#include "ros_time.h"
+#include "this_node.h"
 
 #ifdef __cplusplus
 }
