@@ -8,32 +8,43 @@ import {
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 
-const httpLink = new HttpLink({
-  uri: "http://localhost:8001",
-});
-
-const wsLink = new WebSocketLink({
-  uri: `ws://localhost:8000`,
-  options: {
-    reconnect: true,
+var Network = {
+  httpLink: function (port) {
+    return new HttpLink({
+      uri: `http://localhost:${port}`,
+    });
   },
-});
 
-const terminatingLink = split(
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return (
-      kind === "OperationDefinition" &&
-      (operation === "subscription" || operation === "query")
-    );
+  wsLink: function (port) {
+    return new WebSocketLink({
+      uri: `ws://localhost:${port}`,
+      options: {
+        reconnect: true,
+      },
+    });
   },
-  wsLink,
-  httpLink
-);
 
-const client = new ApolloClient({
-  link: ApolloLink.from([terminatingLink]),
-  cache: new InMemoryCache(),
-});
+  client: function (httpPort, wsPort) {
+    return new ApolloClient({
+      link: ApolloLink.from([
+        split(
+          ({ query }) => {
+            const { kind, operation } = getMainDefinition(query);
+            return (
+              kind === "OperationDefinition" &&
+              (operation === "subscription" || operation === "query")
+            );
+          },
+          this.wsLink(wsPort),
+          this.httpLink(httpPort)
+        ),
+      ]),
+      cache: new InMemoryCache(),
+    });
+  },
 
-export default client;
+  sys_client: null,
+  ros_client: null,
+};
+
+export default Network;
