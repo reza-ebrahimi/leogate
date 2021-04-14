@@ -6,14 +6,24 @@ import InboxIcon from "@material-ui/icons/Inbox";
 
 const navigationItems = [
   {
-    id: 1,
-    label: "ROS 1",
+    label: "Home",
     url: "/",
   },
   {
-    id: 2,
-    label: "ROS 2",
-    url: "/ros2",
+    label: "System Status",
+    url: "/panels/system_status",
+  },
+  {
+    label: "Master Status",
+    url: "/panels/master_status",
+  },
+  {
+    label: "Nodes",
+    url: "/panels/nodes",
+  },
+  {
+    label: "Topics",
+    url: "/panels/topics",
   },
 ];
 
@@ -76,17 +86,16 @@ const NavigationBar = () => {
   return (
     <StyledNavigationBar>
       <StyledNavigationLogo />
-      {navigationItems.map((navigation) => {
+      {navigationItems.map((navigation, idx) => {
         return (
-          <React.Fragment key={navigation.id}>
-            <NavigationItem
-              id={navigation.id}
-              label={navigation.label}
-              to={navigation.url}
-              resetSelection={resetSelection === navigation.id}
-              resetHandler={resetHandler}
-            />
-          </React.Fragment>
+          <NavigationItem
+            key={idx}
+            id={idx}
+            label={navigation.label}
+            to={navigation.url}
+            resetSelection={resetSelection === idx}
+            resetHandler={resetHandler}
+          />
         );
       })}
     </StyledNavigationBar>

@@ -339,7 +339,7 @@ const StreamViewer = ({ onLoad }) => {
         clearColor: [0.1, 0.1, 0.1, 1],
       }}
     >
-      <TopicSelector onSelectedChanged={onSelectedChanged}></TopicSelector>
+      <TopicSelector onSelectedChanged={onSelectedChanged} />
     </DeckGL>
   );
 };

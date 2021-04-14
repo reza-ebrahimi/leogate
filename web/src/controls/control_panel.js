@@ -1,51 +1,38 @@
 import React from "react";
+import { Switch, Route } from "react-router-dom";
+
 import styled from "styled-components";
 
-import ControlPanelHeader from "./control_panel_header";
-import ControlPanelBody from "./control_panel_body";
-import ControlPanelFooter from "./control_panel_footer";
+import Panel from "./panel";
 
-import MasterInfoPanel from "./master_info_panel";
-import StatusPanel from "./status_panel";
+import SystemStatusPanel from "../panels/system_status_panel";
+import MasterStatusPanel from "../panels/master_status_panel";
+import NodesPanel from "../panels/nodes_panel";
+import TopicsPanel from "../panels/topics_panel";
 
 const ControlPanelContainer = styled.div`
-  grid-area: panel;
-  display: grid;
-  grid-template-rows: 30px auto 30px;
-  grid-template-areas:
-    "header"
-    "panel"
-    "footer";
+  padding: 0 10px;
 `;
 
-const ControlPanel = ({ type }) => {
-  if (type === "ros1") {
-    return (
-      <ControlPanelContainer>
-        <ControlPanelHeader>ROS Control Panel</ControlPanelHeader>
-        <ControlPanelBody>
-          <MasterInfoPanel />
-        </ControlPanelBody>
-        <ControlPanelFooter>
-          <StatusPanel />
-        </ControlPanelFooter>
-      </ControlPanelContainer>
-    );
-  }
-
-  if (type === "ros2") {
-    return (
-      <ControlPanelContainer>
-        <ControlPanelHeader>ROS2 Control Panel</ControlPanelHeader>
-        <ControlPanelBody>Under Development</ControlPanelBody>
-        <ControlPanelFooter>
-          <StatusPanel />
-        </ControlPanelFooter>
-      </ControlPanelContainer>
-    );
-  }
-
-  return <div>Type `{type}` is not defined</div>;
+const ControlPanel = () => {
+  return (
+    <ControlPanelContainer>
+      <Switch>
+        <Route path="/panels/system_status">
+          <Panel title="System Status" component={<SystemStatusPanel />} />
+        </Route>
+        <Route path="/panels/master_status">
+          <Panel title="Master Status" component={<MasterStatusPanel />} />
+        </Route>
+        <Route path="/panels/nodes">
+          <Panel title="Nodes" component={<NodesPanel />} />
+        </Route>
+        <Route path="/panels/topics">
+          <Panel title="Topics" component={<TopicsPanel />} />
+        </Route>
+      </Switch>
+    </ControlPanelContainer>
+  );
 };
 
 export default ControlPanel;
