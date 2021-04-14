@@ -28,7 +28,7 @@ impl RosManager {
       spinner_thread: None,
     };
 
-    manager.start_spinner();
+    //manager.start_spinner();
     manager
   }
 
@@ -52,7 +52,7 @@ impl RosManager {
     self.shutdown_flag.store(true, Ordering::Relaxed);
   }
 
-  fn start_spinner(&mut self) {
+  pub fn start_spinner(&mut self) {
     let shutdown_flag = self.shutdown_flag.clone();
 
     self.spinner_thread = Some(std::thread::spawn(move || {
