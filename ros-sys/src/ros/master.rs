@@ -4,7 +4,7 @@ use std::os::raw::c_char;
 
 use serde_json::from_str;
 
-use async_graphql::SimpleObject;
+use async_graphql::*;
 
 use super::ffi;
 
