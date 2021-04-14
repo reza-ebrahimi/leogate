@@ -16,10 +16,15 @@ bindgen = "0.56.0"
 
 [dependencies]
 futures = "0.3"
+
 actix = "0.10.0"
-lazy_static = "1.4.0"
 async-graphql = "2.5.0"
+
+# actix = "0.11.1"
+# async-graphql = { git = "https://github.com/reza-ebrahimi/async-graphql", branch = "actix-web-v4-beta" }
+
 serde = "1.0.122"
 serde_json = { version = "1.0.61", features = ["raw_value"] }
 tokio = { version = "1.4.0", features = ["full"] }
 tokio-stream = { version = "0.1.5", features = ["sync"] }
+lazy_static = "1.4.0"
