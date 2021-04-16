@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Select from "react-select";
-
 import { gql, useQuery } from "@apollo/client";
+import Network from "../network_interface";
 
 const TOPICS = gql`
   query {
     masterInfo {
       topics {
         name
-        datatype
+        datatypes
       }
     }
   }
@@ -32,7 +32,9 @@ var options = [];
 
 const TopicSelector = ({ onSelectedChanged }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const { loading, error, data } = useQuery(TOPICS);
+  const { loading, error, data } = useQuery(TOPICS, {
+    client: Network.default_client.handle,
+  });
 
   useEffect(() => {
     if (loading || error) {
@@ -40,26 +42,28 @@ const TopicSelector = ({ onSelectedChanged }) => {
     }
 
     data.masterInfo.topics.map((topic, idx) => {
-      if (topic.datatype === "sensor_msgs/PointCloud2") {
+      topic.datatypes.map((datatype) => {
         let name = topic.name.toLowerCase();
-        options.push({
-          value: name,
-          label: name,
-          datatype: topic.datatype,
-        });
-      }
-
+        if (datatype === "sensor_msgs/PointCloud2") {
+          options.push({
+            value: name,
+            label: name,
+            datatype: datatype,
+          });
+        }
+        return datatype;
+      });
       return topic;
     });
 
     return () => {
       options = [];
     };
-  }, [data]);
+  }, [loading, error, data]);
 
   useEffect(() => {
     onSelectedChanged(selectedOption);
-  }, [selectedOption]);
+  }, [selectedOption, onSelectedChanged]);
 
   if (error) return `Error! ${error.message}`;
   if (loading) {
