@@ -14,10 +14,12 @@ target/
 .catkin_workspace
 .idea
 
+install/
 build/
 devel/
 cmake-build-debug/
 logs/
+log/
 
 *.pyc
 *.project
