@@ -18,7 +18,7 @@ const MainContainer = styled.div`
 
 const MainLayout = (props) => (
   <MainContainer>
-    {/* <StreamViewer /> */}
+    <StreamViewer />
     <Switch>
       <Route path="/panels">
         <ControlPanelContainer>
