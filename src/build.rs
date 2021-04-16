@@ -7,7 +7,9 @@ fn main() {
     concat!(
       env!("LD_LIBRARY_PATH"),
       ":/opt/ros/melodic/lib",
-      ":ros-native/devel/lib"
+      ":/opt/ros/foxy/lib",
+      ":ros-native/devel/lib",
+      ":ros2-native/build/ros2-native"
     )
   );
 }
