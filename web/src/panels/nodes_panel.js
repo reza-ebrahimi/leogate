@@ -19,7 +19,7 @@ const NodesPanelStyled = styled.div`
 
 const NodesPanel = (props) => {
   const { loading, error, data } = useQuery(QUERY, {
-    client: Network.ros_client,
+    client: Network.default_client.handle,
   });
 
   if (error) {
