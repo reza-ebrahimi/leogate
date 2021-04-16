@@ -4,18 +4,20 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 
 import App from "./App";
-import network from "./network_interface";
+import Network from "./network_interface";
+import NetworkInitializer from "./network_initializer";
 
 import reportWebVitals from "./reportWebVitals";
 
-network.sys_client = network.client(8000, 8000);
-network.ros_client = network.client(8001, 8001);
+Network.create_client("sys", 8000);
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ApolloProvider client={network.sys_client}>
-        <App />
+      <ApolloProvider client={Network.client("sys").handle}>
+        <NetworkInitializer>
+          <App />
+        </NetworkInitializer>
       </ApolloProvider>
     </BrowserRouter>
   </React.StrictMode>,
