@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { gql, useSubscription } from "@apollo/client";
 
 import DeckGL from "@deck.gl/react";
 import {
@@ -8,8 +7,10 @@ import {
   LinearInterpolator,
 } from "@deck.gl/core";
 import { PointCloudLayer } from "@deck.gl/layers";
+import Network from "../network_interface";
 
 import TopicSelector from "./topic_selector";
+import ClientBox from "./client_box";
 
 const INITIAL_VIEW_STATE = {
   target: [0, 0, 0],
@@ -221,12 +222,14 @@ const StreamViewer = ({ onLoad }) => {
   const [pointCloudData, setPointCloudData] = useState();
   const [topic, setTopic] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => {        
     if (!topic) {
       return;
     }
 
-    ws.current = new WebSocket("ws://192.168.1.124:8000/ws");
+    const url = `ws://${window.location.hostname}:${Network.default_client.port}/ws`;
+
+    ws.current = new WebSocket(url);
     ws.current.binaryType = "arraybuffer";
     ws.current.onopen = () => {
       ws.current.send(
@@ -339,7 +342,10 @@ const StreamViewer = ({ onLoad }) => {
         clearColor: [0.1, 0.1, 0.1, 1],
       }}
     >
-      <TopicSelector onSelectedChanged={onSelectedChanged} />
+      <ClientBox />
+      {Network.default_client && (
+        <TopicSelector onSelectedChanged={onSelectedChanged} />
+      )}
     </DeckGL>
   );
 };
