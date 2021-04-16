@@ -24,27 +24,37 @@ var Network = {
     });
   },
 
-  client: function (httpPort, wsPort) {
-    return new ApolloClient({
-      link: ApolloLink.from([
-        split(
-          ({ query }) => {
-            const { kind, operation } = getMainDefinition(query);
-            return (
-              kind === "OperationDefinition" &&
-              (operation === "subscription" || operation === "query")
-            );
-          },
-          this.wsLink(wsPort),
-          this.httpLink(httpPort)
-        ),
-      ]),
-      cache: new InMemoryCache(),
-    });
+  create_client: function (name, port) {
+    this.clients.push({
+      name,
+      port,
+      handle: new ApolloClient({
+        link: ApolloLink.from([
+          split(
+            ({ query }) => {
+              const { kind, operation } = getMainDefinition(query);
+              return (
+                kind === "OperationDefinition" &&
+                (operation === "subscription" || operation === "query")
+              );
+            },
+            this.wsLink(port),
+            this.httpLink(port)
+          ),
+        ]),
+        cache: new InMemoryCache(),
+      })
+    });    
   },
 
-  sys_client: null,
-  ros_client: null,
+  client: function (name) {
+    return this.clients.find((client) => {
+      return client.name === name;
+    })
+  },
+  
+  clients: [],
+  default_client: null
 };
 
 export default Network;
