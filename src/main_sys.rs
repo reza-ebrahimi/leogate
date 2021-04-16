@@ -48,7 +48,7 @@ pub async fn main() -> std::io::Result<()> {
   .data(rt.handle())
   .finish();
 
-  println!("System Playground: http://0.0.0.0:8000");
+  println!("System Playground: http://localhost:8000");
 
   HttpServer::new(move || {
     App::new()
