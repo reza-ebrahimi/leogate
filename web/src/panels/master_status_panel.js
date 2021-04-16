@@ -38,23 +38,39 @@ const RosTime = ({ time }) => {
 };
 
 const RosMaster = ({ status }) => {
+  const aliveness = (value) => {
+    if (value === undefined || value === null) {
+      return "N/A";
+    }
+    
+    return value ? "Running" : "Stopped";
+  }
+
+  const check_and_return = (value) => {
+    if (value === undefined || value === null) {
+      return "N/A";
+    }
+    
+    return value;
+  }
+
   return (
     <>
       <div>Aliveness</div>
-      <div>{status.aliveness ? "Running" : "Stopped"}</div>
+      <div>{aliveness(status.aliveness)}</div>
       <div>Host</div>
-      <div>{status.host}</div>
+      <div>{check_and_return(status.host)}</div>
       <div>Port</div>
-      <div>{status.port}</div>
+      <div>{check_and_return(status.port)}</div>
       <div>URI</div>
-      <div>{status.uri}</div>
+      <div>{check_and_return(status.uri)}</div>
     </>
   );
 };
 
 const MasterStatusPanel = () => {
   const { loading, error, data, startPolling, stopPolling } = useQuery(QUERY, {
-    client: Network.ros_client,
+    client: Network.default_client.handle,
   });
 
   useEffect(() => {
