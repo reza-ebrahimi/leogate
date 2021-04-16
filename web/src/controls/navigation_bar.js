@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Switch, Route, Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
 import InboxIcon from "@material-ui/icons/Inbox";
+import Network from "../network_interface";
 
 const navigationItems = [
   {
@@ -82,6 +83,14 @@ const NavigationBar = () => {
   const resetHandler = (id) => {
     setResetSelection(id);
   };
+
+  if (Network.default_client === null || Network.default_client === undefined) {
+    return (
+      <StyledNavigationBar>
+        <StyledNavigationLogo />
+      </StyledNavigationBar>
+    );
+  }
 
   return (
     <StyledNavigationBar>
