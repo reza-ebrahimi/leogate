@@ -8,7 +8,7 @@ const QUERY = gql`
     masterInfo {
       topics {
         name
-        datatype
+        datatypes
       }
     }
   }
@@ -22,7 +22,7 @@ const TopicsPanelStyled = styled.div`
 
 const TopicsPanel = (props) => {
   const { loading, error, data } = useQuery(QUERY, {
-    client: Network.ros_client,
+    client: Network.default_client.handle,
   });
 
   if (error) {
@@ -53,7 +53,11 @@ const TopicsPanel = (props) => {
           return (
             <React.Fragment key={idx}>
               <div>{topic.name}</div>
-              <div>{topic.datatype}</div>
+              {
+                topic.datatypes.map((datatype, idx) => {
+                  return <div key={idx}>{datatype}</div>;
+                })
+              }
             </React.Fragment>
           );
         })}
