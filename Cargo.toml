@@ -6,7 +6,9 @@ edition = "2018"
 build = "src/build.rs"
 
 [dependencies]
-ros-sys = { path = "ros-sys" }
+#ros-sys = { path = "ros-sys" }
+ros2-sys = { path = "ros2-sys" }
+
 futures = "0.3"
 tokio = { version = "1.4.0", features = ["full"] }
 chrono = "0.4.19"
@@ -26,4 +28,4 @@ systemstat = "0.1.7"
 sysinfo = "0.17.0"
 
 [workspace]
-members = ["ros-sys"]
+members = ["ros2-sys"]
