@@ -12,9 +12,9 @@ use async_graphql::{
 };
 use async_graphql_actix_web::{Request, Response, WSSubscription};
 
-use ros_sys::RosManager;
-use super::ros_schema::*;
 use super::core::BinaryWebsocketHandler;
+use super::ros_schema::*;
+use ros_sys::RosManager;
 
 async fn playground_html_handler() -> Result<HttpResponse> {
   Ok(

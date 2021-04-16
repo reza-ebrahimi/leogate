@@ -33,9 +33,7 @@ impl Node {
     Self { __handle: nh }
   }
 
-  pub fn subscribe(&mut self, topic: &str, msg_type: &str) {
-
-  }
+  pub fn subscribe(&mut self, topic: &str, msg_type: &str) {}
 
   pub fn get_name(&self) -> String {
     unsafe {
@@ -165,9 +163,7 @@ impl Node {
   }
 
   pub fn time_now_seconds(&self) -> f64 {
-    unsafe {
-      ffi::node_time_now_get_seconds(self.__handle)
-    }
+    unsafe { ffi::node_time_now_get_seconds(self.__handle) }
   }
 }
 
