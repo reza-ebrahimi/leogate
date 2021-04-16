@@ -13,9 +13,8 @@ use async_graphql::{
 use async_graphql_actix_web::{Request, Response, WSSubscription};
 
 use ros_sys::RosManager;
-
-use super::core::BinaryWebsocketHandler;
 use super::ros_schema::*;
+use super::core::BinaryWebsocketHandler;
 
 async fn playground_html_handler() -> Result<HttpResponse> {
   Ok(
@@ -64,7 +63,7 @@ pub async fn main() -> std::io::Result<()> {
     .data(ros.clone())
     .finish();
 
-  println!("ROS Playground: http://0.0.0.0:8001");
+  println!("ROS Playground: http://localhost:8001");
 
   HttpServer::new(move || {
     App::new()
