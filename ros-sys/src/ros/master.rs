@@ -11,15 +11,15 @@ use super::ffi;
 #[derive(Clone, Debug, Default, SimpleObject, serde::Deserialize)]
 pub struct TopicInfo {
   name: String,
-  datatype: String,
+  datatypes: Vec<String>,
 }
 
 #[derive(Clone, Debug, Default, SimpleObject, serde::Deserialize)]
 pub struct MasterInfo {
-  host: String,
-  port: u32,
-  uri: String,
-  aliveness: bool,
+  host: Option<String>,
+  port: Option<u32>,
+  uri: Option<String>,
+  aliveness: Option<bool>,
   topics: Vec<TopicInfo>,
   nodes: Vec<String>,
 }
@@ -29,10 +29,10 @@ pub struct Master;
 impl Master {
   pub fn get_info() -> MasterInfo {
     MasterInfo {
-      host: Master::get_host(),
-      port: Master::get_port(),
-      uri: Master::get_uri(),
-      aliveness: Master::check(),
+      host: Some(Master::get_host()),
+      port: Some(Master::get_port()),
+      uri: Some(Master::get_uri()),
+      aliveness: Some(Master::check()),
       topics: Master::get_topics(),
       nodes: Master::get_nodes(),
     }
