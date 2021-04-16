@@ -28,9 +28,9 @@ const char *ros_master_getTopics() {
   if (ros::master::getTopics(_topics)) {
     for (size_t i = 0; i < _topics.size(); ++i) {
       ros::master::TopicInfo ti = _topics[i];
-      auto j = json {
-        {"name", ti.name}},
-        {"datatypes", json::array()}
+      auto j = json{
+          {"name", ti.name},
+          {"datatypes", json::array()}
       };
       j["datatypes"].push_back(ti.datatype);
       json_str.push_back(j);
