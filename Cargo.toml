@@ -6,8 +6,8 @@ edition = "2018"
 build = "src/build.rs"
 
 [dependencies]
-#ros-sys = { path = "ros-sys" }
-ros2-sys = { path = "ros2-sys" }
+ros-sys = { path = "ros-sys" }
+#ros2-sys = { path = "ros2-sys" }
 
 futures = "0.3"
 tokio = { version = "1.4.0", features = ["full"] }
